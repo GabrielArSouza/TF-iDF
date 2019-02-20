@@ -1,18 +1,14 @@
 package algorithms;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
+
 
 public class Parser {
 
 	//<! Attributes
-	
-	/**
-	 * The map of term. 
-	 * Key   - term's name
-	 * Value - number of occurrences of the term 
-	 */
-	private HashMap<String, Integer> term;
-	
 	private String document;
 	
 	/**
@@ -22,29 +18,61 @@ public class Parser {
 	public Parser ( String document )
 	{ this.document = document; }
 
-	public void run ()
+	/**
+	 * Execute the algorithm
+	 */
+	public HashMap<String, Integer> run ()
 	{
-		// TODO
+		HashMap<String, Integer> term = new HashMap<String, Integer>();
+		
+		try {
+			
+			/**
+			 * Read the document
+			 */
+			FileReader file = new FileReader(this.document);
+		    BufferedReader readFile = new BufferedReader(file);
+		 
+		    String line = readFile.readLine(); // read the first line
+		    String[] terms;
+ 		    
+		    while (line != null) {
+		        // eliminates line punctuation
+		    	terms = line.split("\\p{Punct}");
+		        for (String t: terms)
+		        {
+		        	// separate words
+		        	String[] singleTerm = t.split("\\p{Blank}");
+		        	for (String s: singleTerm)
+		        	{
+		        		// save the words
+		        		if (term.containsKey(s))
+			        		term.replace(s, term.get(s)+1);
+			        	else
+			        	{ term.put(s, new Integer(1));}
+		        	}
+		        }
+		        
+		        line = readFile.readLine(); // next line
+		    }
+		 
+		    file.close();
+		    
+		} catch (IOException e) {
+			System.err.printf("Erro na abertura do arquivo: %s.\n",
+		    e.getMessage());
+		}
+		
+		return term;
 	}
 	
 	//<! Getters and Setters
 	
-	public HashMap<String, Integer> getTerm() {
-		return term;
-	}
-
-	public void setTerm(HashMap<String, Integer> term) {
-		this.term = term;
-	}
-
 	public String getDocument() {
 		return document;
 	}
 
 	public void setDocument(String document) {
 		this.document = document;
-	}
-	
-	
-	
+	}	
 }
