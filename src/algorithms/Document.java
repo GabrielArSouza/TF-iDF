@@ -37,6 +37,14 @@ public class Document {
 		}
 	}
 	
+	/**
+	 * informs the number of occurrences of a specific term
+	 * @param term  The term
+	 * @return  The number of occurrences of term
+	 */
+	public int numberOfOccurrencesTerm (String term)
+	{ return this.tableTermOccurrence.get(term); }
+	
 	public String getDocumentName ()
 	{
 		String [] name = url.split("/");
