@@ -2,6 +2,7 @@ package main;
 
 import algorithms.Document;
 import algorithms.TermFrequency;
+import java.io.IOException;
 
 public class Main {
 	
@@ -15,7 +16,11 @@ public class Main {
 		tf.constructTableTermFrequency();
 		System.out.println("construct table term frequency");
 		
-		tf.printTableTermFrequency();
+		try {
+			tf.printTableTermFrequency();
+		}catch(IOException e) {
+			System.out.println(e);
+		}
 	}
 }
 

@@ -1,9 +1,13 @@
 package algorithms;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+import java.io.IOException;
+
 
 public class TermFrequency {
 
@@ -81,27 +85,32 @@ public class TermFrequency {
 		}
 	}
 	
-	public void printTableTermFrequency ()
+	public void printTableTermFrequency () throws IOException
 	{
 		int numberOfDocuments = this.documents.size();
 		int numberOfTerms = this.terms.keySet().size();
+		String str = "";
 		
 		Set<String> termsOfTable = terms.keySet();
 		int j;
 		
 		for (int i = 0; i < numberOfDocuments; i++)
 		{
-			String line = "|  | " + documents.get(i).getName() + " |\n";
+			str = "|  | " + documents.get(i).getName() + " |\n";
 			j = 0;
 			
 			for (String s : termsOfTable)
 			{
-				line += "| " + s + " | " + this.tableTermFrequency[i][j] + " |\n";
+				str += "| " + s + " | " + this.tableTermFrequency[i][j] + " |\n";
 				j++;
 			}
-			System.out.println(line);
-			line = "";
 		}
+		
+		String filename = "archive/output.txt";
+		BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
+	    writer.write(str);
+	     
+	    writer.close();
 	}
 		
 	
