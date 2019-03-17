@@ -6,8 +6,7 @@ public class Document {
 
 	/**
 	 * Attributes
-	 */
-	
+	 */	
 	private String url;
 	private int numberOfTerms;
 	private HashMap<String, Integer> tableTermOccurrence;

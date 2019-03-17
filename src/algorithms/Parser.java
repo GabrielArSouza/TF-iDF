@@ -23,6 +23,10 @@ public class Parser {
 	 */
 	public HashMap<String, Integer> run ()
 	{
+		/**
+		 * Key - The term
+		 * value - number of term occurrences
+		 */
 		HashMap<String, Integer> term = new HashMap<String, Integer>();
 		
 		try {
@@ -37,13 +41,15 @@ public class Parser {
 		    String[] terms;
  		    
 		    while (line != null) {
+		    	
 		        // eliminates line punctuation
 		    	terms = line.split("\\p{Punct}");
-		        for (String t: terms)
+		        
+		    	for (String t : terms)
 		        {
-		        	// separate words
+		        	// separate words (terms)
 		        	String[] singleTerm = t.split("\\p{Blank}");
-		        	for (String s: singleTerm)
+		        	for (String s : singleTerm)
 		        	{
 		        		// save the words
 		        		if (term.containsKey(s))
