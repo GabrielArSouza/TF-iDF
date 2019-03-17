@@ -91,7 +91,7 @@ public class TermFrequency {
 		
 		for (int i = 0; i < numberOfDocuments; i++)
 		{
-			String line = "|  | " + documents.get(i).getDocumentName() + " |\n";
+			String line = "|  | " + documents.get(i).getName() + " |\n";
 			j = 0;
 			
 			for (String s : termsOfTable)
@@ -100,6 +100,7 @@ public class TermFrequency {
 				j++;
 			}
 			System.out.println(line);
+			line = "";
 		}
 	}
 		

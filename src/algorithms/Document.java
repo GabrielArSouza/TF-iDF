@@ -44,12 +44,6 @@ public class Document {
 	public int numberOfOccurrencesTerm (String term)
 	{ return this.tableTermOccurrence.get(term); }
 	
-	public String getDocumentName ()
-	{
-		String [] name = url.split("/");
-		return name[name.length-1];
-	}
-
 	/**
 	 * Getters and Setters
 	 */
@@ -60,6 +54,12 @@ public class Document {
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+	
+	public String getName () {
+		String name[] = this.url.split("/");
+		int size = name.length;
+		return name[size-1];
 	}
 
 	public int getNumberOfTerms() {
