@@ -9,6 +9,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import java.util.concurrent.*; 
+
 public class Main {
 	
 	public static void main (String[] args)
@@ -37,6 +39,8 @@ public class Main {
 					+ " " + e1.getMessage());
 		}
 		
+		long startTime = System.nanoTime();
+		
 		TermFrequency tf = new TermFrequency(documents, sw);
 		tf.constructTableTermFrequency();
 		System.out.println("construct table term frequency");
@@ -47,7 +51,12 @@ public class Main {
 			System.out.println(e);
 		}
 		
+		long endTime = System.nanoTime();
+		long totalTime = endTime - startTime;
+		long minutes = TimeUnit.SECONDS.convert(totalTime, TimeUnit.NANOSECONDS);
+		
 		System.out.println("Finish");
+		System.out.println("elapsed time: " + minutes + " seconds ");
 	}
 }
 
