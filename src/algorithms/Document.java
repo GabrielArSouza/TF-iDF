@@ -2,6 +2,8 @@ package algorithms;
 
 import java.util.HashMap;
 
+import common.StopWord;
+
 public class Document {
 
 	/**
@@ -16,15 +18,13 @@ public class Document {
 	 * Construct 
 	 * @param url The url of document
 	 */
-	public Document ( String url )
+	public Document ( String url, StopWord sw )
 	{
 		this.url = url;
-		this.parser = new Parser(url);
+		this.parser = new Parser(url, sw);
 		this.tableTermOccurrence = parser.run();
 		
-		this.numberOfTerms = 0;
-		for (String s : this.tableTermOccurrence.keySet())
-			numberOfTerms += this.tableTermOccurrence.get(s);
+		this.numberOfTerms = parser.getNumberOfProcessedTerms();
 	}
 	
 	public void printTerms ()
@@ -42,7 +42,11 @@ public class Document {
 	 * @return  The number of occurrences of term
 	 */
 	public int numberOfOccurrencesTerm (String term)
-	{ return this.tableTermOccurrence.get(term); }
+	{ 
+		if (tableTermOccurrence.containsKey(term))
+			return this.tableTermOccurrence.get(term);
+		else return 0;
+	}
 	
 	/**
 	 * Getters and Setters

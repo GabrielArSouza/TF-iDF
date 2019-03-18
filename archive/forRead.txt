@@ -1,0 +1,7 @@
+archive/books/Alice’sAdventuresinWonderland.txt
+archive/books/ATaleofTwoCitie.txt
+archive/books/Frankenstein.txt
+archive/books/HeartofDarkness.txt
+archive/books/MobyDick.txt
+archive/books/PrideandPrejudice.txt
+archive/books/SherlockHolmes.txt

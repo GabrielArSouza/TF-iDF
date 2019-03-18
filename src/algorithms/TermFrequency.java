@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+
+import common.StopWord;
+
 import java.io.IOException;
 
 
@@ -14,14 +17,17 @@ public class TermFrequency {
 	private List<Document> documents;
 	private HashMap<String, Integer> terms;
 	private Float[][] tableTermFrequency;
+	private StopWord stopWordObject;
+	
 	/**
 	 * Construct the object from a unique document
 	 * @param document  the document
 	 */
-	public TermFrequency (Document document)
+	public TermFrequency (Document document, StopWord sw)
 	{
 		this.documents = new ArrayList<Document>();
 		this.documents.add(document);
+		this.stopWordObject = sw;
 		
 		terms = new HashMap<String, Integer>();
 		for (String s : document.getTableTermOccurrence().keySet())
@@ -32,10 +38,11 @@ public class TermFrequency {
 	 * Construct the object from a list of documents
 	 * @param documents  the list of documents
 	 */
-	public TermFrequency (List<Document> documents)
+	public TermFrequency (List<Document> documents, StopWord sw)
 	{
 		this.documents = new ArrayList<Document>();
 		this.terms = new HashMap<String, Integer>();
+		this.stopWordObject = sw;
 		
 		for (Document doc : documents)
 		{
@@ -58,7 +65,7 @@ public class TermFrequency {
 	}
 	
 	/**
-	 * Construc the table of term frequency
+	 * Construct the table of term frequency
 	 */
 	public void constructTableTermFrequency ()
 	{
@@ -88,29 +95,33 @@ public class TermFrequency {
 	public void printTableTermFrequency () throws IOException
 	{
 		int numberOfDocuments = this.documents.size();
-		int numberOfTerms = this.terms.keySet().size();
-		String str = "";
+		System.out.println(numberOfDocuments + " documents found");
+		System.out.println(this.terms.keySet().size() + " terms found");
+		System.out.println("Running algorithm...");
+		String str = "Term";
 		
+		// header
+		for (Document doc : this.documents)
+			str += ";" + doc.getName();
+		str += " \n";
+	
 		Set<String> termsOfTable = terms.keySet();
-		int j;
-		
-		for (int i = 0; i < numberOfDocuments; i++)
-		{
-			str = "|  | " + documents.get(i).getName() + " |\n";
-			j = 0;
-			
-			for (String s : termsOfTable)
-			{
-				str += "| " + s + " | " + this.tableTermFrequency[i][j] + " |\n";
-				j++;
-			}
+		int i=0;
+		for (String s : termsOfTable ) {
+			str += s;
+			for (int j=0; j < numberOfDocuments; j++)
+				str += ";\"" + String.format("%.6f", tableTermFrequency[j][i])+"\"";
+			str += "\n";
+			i++;			
 		}
 		
-		String filename = "archive/output.txt";
+		String filename = "archive/tableTermFrequency.csv";
 		BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
 	    writer.write(str);
-	     
 	    writer.close();
+	    
+	    System.out.println("successfully");
+	    System.out.println("save table term frequency in " + filename );
 	}
 		
 	
@@ -134,5 +145,8 @@ public class TermFrequency {
 		this.terms = terms;
 	}
 	
+	public StopWord getStopWord () {
+		return this.stopWordObject;
+	}
 	
 }

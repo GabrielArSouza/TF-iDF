@@ -5,18 +5,26 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 
+import common.StopWord;
+
 
 public class Parser {
 
 	//<! Attributes
 	private String document;
+	private StopWord sw;
+	private int numberOfProcessedTerms;
 	
 	/**
 	 * The constructor
 	 * @param document   The document for parser
+	 * @param sw         The sto words
 	 */
-	public Parser ( String document )
-	{ this.document = document; }
+	public Parser ( String document, StopWord sw ){ 
+		this.document = document; 
+		this.sw = sw;
+		this.numberOfProcessedTerms = 0;
+	}
 
 	/**
 	 * Execute the algorithm
@@ -43,19 +51,22 @@ public class Parser {
 		    while (line != null) {
 		    	
 		        // eliminates line punctuation
-		    	terms = line.split("\\p{Punct}");
+		    	terms = line.trim().split("\\p{Punct}");
 		        
 		    	for (String t : terms)
 		        {
 		        	// separate words (terms)
-		        	String[] singleTerm = t.split("\\p{Blank}");
+		        	String[] singleTerm = t.trim().split("\\s+");
 		        	for (String s : singleTerm)
 		        	{
 		        		// save the words
-		        		if (term.containsKey(s))
-			        		term.replace(s, term.get(s)+1);
-			        	else
-			        	{ term.put(s, new Integer(1));}
+		        		if (!sw.isStopWord(s) && !s.trim().equals("")) {
+		        			numberOfProcessedTerms++;
+		        			if (term.containsKey(s))
+				        		term.replace(s, term.get(s)+1);
+				        	else
+				        	{ term.put(s, new Integer(1));}
+		        		}
 		        	}
 		        }
 		        
@@ -81,4 +92,8 @@ public class Parser {
 	public void setDocument(String document) {
 		this.document = document;
 	}	
+	
+	public int getNumberOfProcessedTerms () {
+		return this.numberOfProcessedTerms;
+	}
 }
