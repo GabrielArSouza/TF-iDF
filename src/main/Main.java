@@ -23,6 +23,9 @@ public class Main {
 		System.out.println("read stop words file - " + sw.getNumberOfStopWords()
 			+ " stop words loaded");
 		
+		System.out.println("Running algorithm...");
+		long startTime = System.nanoTime();
+		
 		try {
 			FileReader file = new FileReader(filename);
 			BufferedReader readFile = new BufferedReader(file);
@@ -39,24 +42,20 @@ public class Main {
 					+ " " + e1.getMessage());
 		}
 		
-		long startTime = System.nanoTime();
-		
 		TermFrequency tf = new TermFrequency(documents, sw);
-		tf.constructTableTermFrequency();
-		System.out.println("construct table term frequency");
-		
+				
 		try {
-			tf.printTableTermFrequency();
+			tf.printTables();
 		}catch(IOException e) {
-			System.out.println(e);
+			System.err.println("Something went wrong " + e.getMessage());
 		}
 		
 		long endTime = System.nanoTime();
 		long totalTime = endTime - startTime;
-		long minutes = TimeUnit.SECONDS.convert(totalTime, TimeUnit.NANOSECONDS);
+		long convert = TimeUnit.MILLISECONDS.convert(totalTime, TimeUnit.NANOSECONDS);
 		
 		System.out.println("Finish");
-		System.out.println("elapsed time: " + minutes + " seconds ");
+		System.out.println("elapsed time: " + convert + " milisegundos ");
 	}
 }
 

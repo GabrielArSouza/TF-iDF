@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import common.StopWord;
+import sun.rmi.server.InactiveGroupException;
 
 import java.io.IOException;
 
@@ -17,6 +18,7 @@ public class TermFrequency {
 	private List<Document> documents;
 	private HashMap<String, Integer> terms;
 	private Float[][] tableTermFrequency;
+	private Float[] inverseDistanceFrequency;
 	private StopWord stopWordObject;
 	
 	/**
@@ -32,6 +34,7 @@ public class TermFrequency {
 		terms = new HashMap<String, Integer>();
 		for (String s : document.getTableTermOccurrence().keySet())
 			terms.put(s, 1);
+		this.constructTables();
 	}
 	
 	/**
@@ -50,7 +53,7 @@ public class TermFrequency {
 			for (String s : doc.getTableTermOccurrence().keySet())
 				this.terms.put(s,1);
 		}
-		
+		this.constructTables();
 	}
 
 	/**
@@ -62,6 +65,13 @@ public class TermFrequency {
 		this.documents.add(doc);
 		for (String s : doc.getTableTermOccurrence().keySet())
 			this.terms.put(s, 1);
+	}
+	
+	public void constructTables () {
+		this.constructTableTermFrequency();
+		System.out.println("The Term Frequency table was built");
+		this.constructInverseDistanceFrequency();
+		System.out.println("The inverse distance Frequency table was built");
 	}
 	
 	/**
@@ -92,36 +102,132 @@ public class TermFrequency {
 		}
 	}
 	
-	public void printTableTermFrequency () throws IOException
-	{
+	/**
+	 * Construct the inverse distance Frequency table
+	 */
+	public void constructInverseDistanceFrequency() {
+		int numberOfDocuments = this.documents.size();
+		Set<String> termsOfTable = terms.keySet();
+		
+		this.inverseDistanceFrequency = new Float[termsOfTable.size()];
+		
+		int count, i = 0;
+		for (String term : termsOfTable) {
+			count = 0;
+			
+			for ( Document doc : documents ) {
+				if (doc.numberOfOccurrencesTerm(term) != 0)
+					count ++;
+			}
+			
+			inverseDistanceFrequency[i] = (float) Math.log(
+					(float)(numberOfDocuments/count));
+			i++;
+		}
+		
+	}
+	
+	public void printTables () throws IOException {
+		
 		int numberOfDocuments = this.documents.size();
 		System.out.println(numberOfDocuments + " documents found");
 		System.out.println(this.terms.keySet().size() + " terms found");
-		System.out.println("Running algorithm...");
-		String str = "Term";
+		
+		this.printTableTermFrequency();
+		this.printInverseDistanceFrequency();
+		this.printTFidF();
+
+	    System.out.println("successfully");
+	}
+	
+	public void printTableTermFrequency () throws IOException
+	{
+		int numberOfDocuments = this.documents.size();
+		StringBuffer str = new StringBuffer("Term");
 		
 		// header
 		for (Document doc : this.documents)
-			str += ";" + doc.getName();
-		str += " \n";
+			str.append(";" + doc.getName());
+		str.append(" \n");
 	
 		Set<String> termsOfTable = terms.keySet();
 		int i=0;
 		for (String s : termsOfTable ) {
-			str += s;
-			for (int j=0; j < numberOfDocuments; j++)
-				str += ";\"" + String.format("%.6f", tableTermFrequency[j][i])+"\"";
-			str += "\n";
+			str.append(s);
+			for (int j=0; j < numberOfDocuments; j++) {
+				str.append(";\"");
+				str.append(String.format("%.6f", this.tableTermFrequency[j][i]));
+				str.append("\"");
+			}
+			str.append("\n");
 			i++;			
 		}
 		
 		String filename = "archive/tableTermFrequency.csv";
 		BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
-	    writer.write(str);
+	    writer.write(str.toString());
 	    writer.close();
 	    
-	    System.out.println("successfully");
-	    System.out.println("save table term frequency in " + filename );
+	    System.out.println("save Term Frequency table in " + filename );
+	}
+	
+	public void printInverseDistanceFrequency() throws IOException {
+		StringBuffer str = new StringBuffer("Term;idf\n");
+		
+		Set<String> termsOfTable = terms.keySet();
+
+		int count = 0;
+		for (String s : termsOfTable) {
+			str.append(s);
+			str.append(";");
+			str.append(String.format("%.6f",this.inverseDistanceFrequency[count]));
+			str.append("\n");
+			count++;
+		}
+		
+		String filename = "archive/inverseDistanceFrequency.csv";
+		BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
+	    writer.write(str.toString());
+	    writer.close();
+	
+	    System.out.println("save inverse distance Frequency table in " + filename );
+	}
+	
+	/**
+	 * Operate term frequency with inverse distance frequency 
+	 * @throws IOException 
+	 */
+	public void printTFidF() throws IOException{
+		
+		System.out.println("generating TF-idF file");
+		int numberOfDocuments = this.documents.size();
+		StringBuffer str = new StringBuffer("Term");
+		
+		// header
+		for (Document doc : this.documents)
+			str.append(";" + doc.getName());
+		str.append("\n");
+	
+		Set<String> termsOfTable = terms.keySet();
+		int i=0;
+		for (String s : termsOfTable ) {
+			str.append(s);
+			for (int j=0; j < numberOfDocuments; j++) {
+				str.append(";\"");
+				str.append(String.format("%.6f", 
+						tableTermFrequency[j][i] * inverseDistanceFrequency[i]));
+				str.append("\"");
+			}
+			str.append("\n");
+			i++;			
+		}
+		
+		String filename = "archive/TF-idF.csv";
+		BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
+	    writer.write(str.toString());
+	    writer.close();
+	    
+	    System.out.println("save TF-idF table in " + filename );
 	}
 		
 	
