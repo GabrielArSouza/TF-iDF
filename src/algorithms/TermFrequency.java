@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Set;
 
 import common.StopWord;
-import sun.rmi.server.InactiveGroupException;
 
 import java.io.IOException;
 

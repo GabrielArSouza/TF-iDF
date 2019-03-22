@@ -3,39 +3,33 @@ package algorithms;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import common.StopWord;
+import common.StopWordHolder;
 
 
 public class Parser {
 
 	//<! Attributes
-	private String document;
-	private StopWord sw;
-	private int numberOfProcessedTerms;
+	private final String document;
+	private final int numberOfProcessedTerms;
+	private final ConcurrentHashMap<String, Integer> processedTerms;
 	
 	/**
 	 * The constructor
-	 * @param document   The document for parser
-	 * @param sw         The sto words
+	 * @param document   The URL document for parser
 	 */
-	public Parser ( String document, StopWord sw ){ 
+	public Parser ( String document ){ 
 		this.document = document; 
-		this.sw = sw;
-		this.numberOfProcessedTerms = 0;
+		this.processedTerms = this.processTerms();
+		this.numberOfProcessedTerms = processedTerms.size();
 	}
 
-	/**
-	 * Execute the algorithm
-	 */
-	public HashMap<String, Integer> run ()
-	{
-		/**
-		 * Key - The term
-		 * value - number of term occurrences
-		 */
-		HashMap<String, Integer> term = new HashMap<String, Integer>();
+	private ConcurrentHashMap<String, Integer> processTerms(){ 
+		
+		ConcurrentHashMap<String, Integer> terms = new ConcurrentHashMap<String, Integer>();
+		StopWord sw = StopWordHolder.getStopWord();
 		
 		try {
 			
@@ -46,14 +40,14 @@ public class Parser {
 		    BufferedReader readFile = new BufferedReader(file);
 		 
 		    String line = readFile.readLine(); // read the first line
-		    String[] terms;
+		    String[] parsedTerms;
  		    
 		    while (line != null) {
 		    	
 		        // eliminates line punctuation
-		    	terms = line.trim().split("\\p{Punct}");
+		    	parsedTerms = line.trim().split("\\p{Punct}");
 		        
-		    	for (String t : terms)
+		    	for (String t : parsedTerms )
 		        {
 		        	// separate words (terms)
 		        	String[] singleTerm = t.trim().split("\\s+");
@@ -61,11 +55,9 @@ public class Parser {
 		        	{
 		        		// save the words
 		        		if (!sw.isStopWord(s) && !s.trim().equals("")) {
-		        			numberOfProcessedTerms++;
-		        			if (term.containsKey(s))
-				        		term.replace(s, term.get(s)+1);
-				        	else
-				        	{ term.put(s, new Integer(1));}
+		        			if (terms.containsKey(s))
+				        		terms.replace(s, terms.get(s)+1);
+				        	else { terms.put(s, new Integer(1));}
 		        		}
 		        	}
 		        }
@@ -80,20 +72,22 @@ public class Parser {
 		    e.getMessage());
 		}
 		
-		return term;
+		
+		return terms;
 	}
 	
+
 	//<! Getters and Setters
 	
 	public String getDocument() {
 		return document;
 	}
 
-	public void setDocument(String document) {
-		this.document = document;
-	}	
-	
 	public int getNumberOfProcessedTerms () {
 		return this.numberOfProcessedTerms;
+	}
+	
+	public ConcurrentHashMap<String, Integer> getProcessedTerms(){
+		return processedTerms;
 	}
 }

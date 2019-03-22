@@ -1,9 +1,6 @@
 package algorithms;
 
-import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
-
-import common.StopWord;
 
 public class Document {
 
@@ -19,12 +16,11 @@ public class Document {
 	 * Construct 
 	 * @param url The url of document
 	 */
-	public Document ( String url, StopWord sw )
+	public Document ( String url )
 	{
 		this.url = url;
-		this.parser = new Parser(url, sw);
-		this.tableTermOccurrence = parser.run();
-		
+		this.parser = new Parser(url);
+		this.tableTermOccurrence = parser.getProcessedTerms() ;
 		this.numberOfTerms = parser.getNumberOfProcessedTerms();
 	}
 	

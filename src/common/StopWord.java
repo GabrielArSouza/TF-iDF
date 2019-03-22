@@ -15,7 +15,7 @@ public class StopWord {
 	//<! The table of stopWords. 
 	//<! Key   - The stop word 
 	//<! Value - The id of stop word
-	private ConcurrentHashMap<String, Integer> tableStopWord;
+	private final ConcurrentHashMap<String, Integer> tableStopWord;
 	
 	/**
 	 * Construct the object

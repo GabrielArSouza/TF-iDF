@@ -3,6 +3,7 @@ package main;
 import algorithms.Document;
 import algorithms.TermFrequency;
 import common.StopWord;
+import common.StopWordHolder;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -18,8 +19,7 @@ public class Main {
 		String filename = "archive/forRead.txt";
 		ArrayList<Document> documents = new ArrayList<Document>();
 		
-		String stopWordFile = "archive/stopWords.txt";
-		StopWord sw = new StopWord(stopWordFile);
+		StopWord sw = StopWordHolder.getStopWord();
 		System.out.println("read stop words file - " + sw.getNumberOfStopWords()
 			+ " stop words loaded");
 		
@@ -32,7 +32,7 @@ public class Main {
 			String line = readFile.readLine();
 			while (line != null) {
 				line.trim();
-				documents.add(new Document(line, sw));
+				documents.add(new Document(line));
 				System.out.println("read document in path " + line);
 				line = readFile.readLine();
 			}
