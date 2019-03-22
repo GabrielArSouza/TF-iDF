@@ -1,6 +1,7 @@
 package algorithms;
 
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import common.StopWord;
 
@@ -9,10 +10,10 @@ public class Document {
 	/**
 	 * Attributes
 	 */	
-	private String url;
-	private int numberOfTerms;
-	private HashMap<String, Integer> tableTermOccurrence;
-	private Parser parser;
+	private final String url;
+	private final int numberOfTerms;
+	private final ConcurrentHashMap<String, Integer> tableTermOccurrence;
+	private final Parser parser;
 	
 	/**
 	 * Construct 
@@ -56,10 +57,6 @@ public class Document {
 		return url;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
-	}
-	
 	public String getName () {
 		String name[] = this.url.split("/");
 		int size = name.length;
@@ -70,18 +67,7 @@ public class Document {
 		return numberOfTerms;
 	}
 
-	public void setNumberOfTerms(int numberOfTerms) {
-		this.numberOfTerms = numberOfTerms;
-	}
-
-	
-	public HashMap<String, Integer> getTableTermOccurrence() {
+	public ConcurrentHashMap<String, Integer> getTableTermOccurrence() {
 		return tableTermOccurrence;
 	}
-
-	public void setTableTermOccurrence(HashMap<String, Integer> tableTermOccurrence) {
-		this.tableTermOccurrence = tableTermOccurrence;
-	}
-
-	
 }
