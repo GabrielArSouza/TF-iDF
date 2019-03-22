@@ -2,37 +2,36 @@ package common;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class StopWord {
 	
 	//<! The name with the URL for stop words file
-	private String filename;
+	private final String filename;
 	
 	//<! The number of stop words in table
-	private int numberOfStopWords;
+	private final int numberOfStopWords;
 	
 	//<! The table of stopWords. 
 	//<! Key   - The stop word 
 	//<! Value - The id of stop word
-	private HashMap<String, Integer> tableStopWord;
+	private final ConcurrentHashMap<String, Integer> tableStopWord;
 	
 	/**
 	 * Construct the object
 	 * @param filename The URL for stop words file
 	 */
-	public StopWord(String filename) {
-		this.filename = filename;
-		this.numberOfStopWords = 0;
-		this.tableStopWord = new HashMap<String, Integer>();
-		this.constructTrableStopWords();
+	public StopWord() {
+		this.filename = "archive/stopWords.in";
+		this.tableStopWord = new ConcurrentHashMap<String, Integer>();
+		this.numberOfStopWords = this.constructTrableStopWords();
 	}
 	
 	/**
 	 * Read the stop words file and build a table
 	 * of stop words
 	 */
-	private void constructTrableStopWords() {
+	private int constructTrableStopWords() {
 		
 		try {
 		
@@ -47,12 +46,13 @@ public class StopWord {
 				line = reader.readLine();
 				id++;
 			}
-			this.numberOfStopWords = id;
 			file.close();
+			return id;
 			
 		}catch (Exception e) {
 			System.err.printf("Erro ao abrir arquivo: %s.\n", e.getMessage());
 		}
+		return 0;
 	}
 	
 	/**
@@ -71,18 +71,10 @@ public class StopWord {
 		return filename;
 	}
 
-	public void setFilename(String filename) {
-		this.filename = filename;
-	}
-
-	public HashMap<String, Integer> getTableStopWord() {
+	public ConcurrentHashMap<String, Integer> getTableStopWord() {
 		return tableStopWord;
 	}
 
-	public void setTableStopWord(HashMap<String, Integer> tableStopWord) {
-		this.tableStopWord = tableStopWord;
-	}
-	
 	public int getNumberOfStopWords () {
 		return numberOfStopWords;
 	}

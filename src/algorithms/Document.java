@@ -1,29 +1,26 @@
 package algorithms;
 
-import java.util.HashMap;
-
-import common.StopWord;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Document {
 
 	/**
 	 * Attributes
 	 */	
-	private String url;
-	private int numberOfTerms;
-	private HashMap<String, Integer> tableTermOccurrence;
-	private Parser parser;
+	private final String url;
+	private final int numberOfTerms;
+	private final ConcurrentHashMap<String, Integer> tableTermOccurrence;
+	private final Parser parser;
 	
 	/**
 	 * Construct 
 	 * @param url The url of document
 	 */
-	public Document ( String url, StopWord sw )
+	public Document ( String url )
 	{
 		this.url = url;
-		this.parser = new Parser(url, sw);
-		this.tableTermOccurrence = parser.run();
-		
+		this.parser = new Parser(url);
+		this.tableTermOccurrence = parser.getProcessedTerms() ;
 		this.numberOfTerms = parser.getNumberOfProcessedTerms();
 	}
 	
@@ -56,10 +53,6 @@ public class Document {
 		return url;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
-	}
-	
 	public String getName () {
 		String name[] = this.url.split("/");
 		int size = name.length;
@@ -70,18 +63,7 @@ public class Document {
 		return numberOfTerms;
 	}
 
-	public void setNumberOfTerms(int numberOfTerms) {
-		this.numberOfTerms = numberOfTerms;
-	}
-
-	
-	public HashMap<String, Integer> getTableTermOccurrence() {
+	public ConcurrentHashMap<String, Integer> getTableTermOccurrence() {
 		return tableTermOccurrence;
 	}
-
-	public void setTableTermOccurrence(HashMap<String, Integer> tableTermOccurrence) {
-		this.tableTermOccurrence = tableTermOccurrence;
-	}
-
-	
 }
