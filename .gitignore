@@ -79,5 +79,4 @@ local.properties
 .scala_dependencies
 .worksheet
 
-*.txt
 *.csv
