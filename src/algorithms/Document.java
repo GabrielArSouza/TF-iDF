@@ -11,6 +11,7 @@ public class Document {
 	private final int numberOfTerms;
 	private final ConcurrentHashMap<String, Integer> tableTermOccurrence;
 	private final Parser parser;
+	private final String name;
 	
 	/**
 	 * Construct 
@@ -22,6 +23,7 @@ public class Document {
 		this.parser = new Parser(url);
 		this.tableTermOccurrence = parser.getProcessedTerms() ;
 		this.numberOfTerms = parser.getNumberOfProcessedTerms();
+		this.name = getNameFromURL();
 	}
 	
 	public void printTerms ()
@@ -53,7 +55,7 @@ public class Document {
 		return url;
 	}
 
-	public String getName () {
+	public String getNameFromURL () {
 		String name[] = this.url.split("/");
 		int size = name.length;
 		return name[size-1];
@@ -65,5 +67,9 @@ public class Document {
 
 	public ConcurrentHashMap<String, Integer> getTableTermOccurrence() {
 		return tableTermOccurrence;
+	}
+	
+	public String getName () {
+		return this.name;
 	}
 }

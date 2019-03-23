@@ -7,7 +7,7 @@ import java.util.Set;
 
 import algorithms.Document;
 import algorithms.TFidF;
-import common.Key;
+
 
 public class SequentialTFidF extends TFidF{
 
@@ -25,11 +25,10 @@ public class SequentialTFidF extends TFidF{
 			while (line != null) {
 				line.trim();
 				this.documents.put(new Document(line), count);
-				System.out.println("read document in path " + line);
 				line = readFile.readLine();
 				count++;
 			}
-			
+			System.out.println( count +  " files were read" );
 			file.close();
 		} catch (IOException e1) {
 			System.err.println("could not open file " + this.urlDocuments 
@@ -38,31 +37,46 @@ public class SequentialTFidF extends TFidF{
 	}
 	
 	public void constructTerms() {
+		System.out.println("Building the terms table...");
 		
 		Set<Document> docs = documents.keySet();
 		for (Document doc : docs) {
 			for (String s : doc.getTableTermOccurrence().keySet())
 				this.terms.put(s, 1);
 		}
+		
+		System.out.println("Terms table built");
 	}
 	
 	public void termFrequency() {
 
+		System.out.println("Building the term frequency table...");
+		
 		Set<String> termsOfTable = terms.keySet();
 		Set<Document> docs = documents.keySet();
 
-		Key keyValue;
+		StringBuffer keyValue = new StringBuffer("");
 		for (Document doc : docs) {
 			for (String s : termsOfTable) {
-				keyValue = new Key(doc.getName(), s);
+				
+				keyValue.append(doc.getName());
+				keyValue.append(s);
+				
 				double numberOfTimesAppears = (double) doc.numberOfOccurrencesTerm(s);
-				this.termFrequency.put(keyValue, numberOfTimesAppears/(double) doc.getNumberOfTerms());
+				this.termFrequency.put(keyValue.toString(), numberOfTimesAppears/(double) doc.getNumberOfTerms());
+				//System.out.println(numberOfTimesAppears/(double) doc.getNumberOfTerms());
+			
+				keyValue.delete(0, keyValue.length());
 			}
 		}
+		
+		System.out.println("The term frequency table was built");
 		
 	}
 	
 	public void inverseDistance() {
+		
+		System.out.println("Building the inverse distance table...");
 		
 		Set<String> termsOfTable = terms.keySet();
 		Set<Document> docs = documents.keySet();
@@ -82,22 +96,37 @@ public class SequentialTFidF extends TFidF{
 			this.inverseDistance.put(term, value);
 		}
 		
+		System.out.println("The inverse distance table was built");
+		
 	}
 	
 	public void tfidfTable() {
 		
+		System.out.println("Building the TF-idF table...");
+		
 		Set<String> termsOfTable = terms.keySet();
 		Set<Document> docs = documents.keySet();		
 	
-		Key keyValue;
+		StringBuffer keyValue = new StringBuffer("");
 		double value = 0.0;
+		double tfValue = 0.0;
 		
 		for (String s : termsOfTable) {
 			for (Document doc : docs) {
-				keyValue = new Key(doc.getName(), s);
-				value = this.termFrequency.get(keyValue) * this.inverseDistance.get(s);
-				this.tfIdf.put(keyValue, value);
+				
+				keyValue.append(doc.getName());
+				keyValue.append(s);				
+				
+				if (this.termFrequency.get(keyValue.toString()) == null)
+					tfValue = 0.0;
+				else tfValue = this.termFrequency.get(keyValue.toString());
+				value = tfValue * this.inverseDistance.get(s);
+				this.tfIdf.put(keyValue.toString(), value);
+				
+				keyValue.delete(0, keyValue.length());
 			}
 		}
+		System.out.println("The TF-idF table was built");
 	}
+		
 }

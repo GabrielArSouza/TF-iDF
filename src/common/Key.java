@@ -2,12 +2,16 @@ package common;
 
 public class Key {
 
-	private final String document;
-	private final String term;
+	private String document;
+	private String term;
+	private StringBuffer result;
 	
 	public Key (String document, String term) {
 		this.document = document;
 		this.term = term;
+		this.result = new StringBuffer();
+		this.result.append(document);
+		this.result.append(term);
 	}
 
 	@Override
@@ -20,8 +24,14 @@ public class Key {
 	
 	@Override
 	public int hashCode() {
-		String result = this.document + this.term;
-		return result.hashCode();
+		return result.toString().hashCode();
 	}
 	
+	public void setNewKey(String document, String term) {
+		this.document = document;
+		this.term = term;
+		this.result.delete(0, this.result.length());
+		result.append(document);
+		result.append(term);
+	}
 }
