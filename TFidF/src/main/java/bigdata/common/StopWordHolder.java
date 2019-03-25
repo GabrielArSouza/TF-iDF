@@ -1,4 +1,4 @@
-package common;
+package bigdata.common;
 
 /**
  * A singleton to StopWord class 

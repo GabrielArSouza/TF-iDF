@@ -1,12 +1,12 @@
-package algorithms;
+package bigdata.algorithms;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 
-import common.StopWord;
-import common.StopWordHolder;
+import bigdata.common.StopWord;
+import bigdata.common.StopWordHolder;
 
 
 public class Parser {

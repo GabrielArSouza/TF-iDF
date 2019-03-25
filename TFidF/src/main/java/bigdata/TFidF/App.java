@@ -1,18 +1,22 @@
-package main;
-
-import common.StopWord;
-import common.StopWordHolder;
-import techniques.SequentialTFidF;
+package bigdata.TFidF;
 
 import java.io.IOException;
-import java.util.concurrent.*; 
+import java.util.concurrent.TimeUnit;
 
-public class Main {
-	
-	public static void main (String[] args)
-	{
+import bigdata.techniques.SequentialTFidF;
+import bigdata.common.StopWord;
+import bigdata.common.StopWordHolder;
+
+/**
+ * Hello world!
+ *
+ */
+public class App 
+{
+    public static void main( String[] args )
+    {
 		String filename = "archive/forRead.txt";
-				
+		
 		StopWord sw = StopWordHolder.getStopWord();
 		System.out.println("read stop words file - " + sw.getNumberOfStopWords()
 			+ " stop words loaded");
@@ -35,6 +39,5 @@ public class Main {
 		
 		System.out.println("Finish");
 		System.out.println("elapsed time: " + convert + " milisegundos ");
-	}
+    }
 }
-

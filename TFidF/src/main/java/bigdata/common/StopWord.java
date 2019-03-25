@@ -1,4 +1,4 @@
-package common;
+package bigdata.common;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
