@@ -37,7 +37,7 @@ public class SequentialTFidF extends TFidF{
 	}
 	
 	public void constructTerms() {
-		System.out.println("Building the terms table...");
+//		System.out.println("Building the terms table...");
 		
 		Set<Document> docs = documents.keySet();
 		for (Document doc : docs) {
@@ -45,12 +45,12 @@ public class SequentialTFidF extends TFidF{
 				this.terms.put(s, 1);
 		}
 		
-		System.out.println("Terms table built");
+//		System.out.println("Terms table built");
 	}
 	
 	public void termFrequency() {
 
-		System.out.println("Building the term frequency table...");
+//		System.out.println("Building the term frequency table...");
 		
 		Set<String> termsOfTable = terms.keySet();
 		Set<Document> docs = documents.keySet();
@@ -70,13 +70,13 @@ public class SequentialTFidF extends TFidF{
 			}
 		}
 		
-		System.out.println("The term frequency table was built");
-		
+//		System.out.println("The term frequency table was built");
+//		
 	}
 	
 	public void inverseDistance() {
 		
-		System.out.println("Building the inverse distance table...");
+//		System.out.println("Building the inverse distance table...");
 		
 		Set<String> termsOfTable = terms.keySet();
 		Set<Document> docs = documents.keySet();
@@ -96,13 +96,13 @@ public class SequentialTFidF extends TFidF{
 			this.inverseDistance.put(term, value);
 		}
 		
-		System.out.println("The inverse distance table was built");
+//		System.out.println("The inverse distance table was built");
 		
 	}
 	
 	public void tfidfTable() {
-		
-		System.out.println("Building the TF-idF table...");
+//		
+//		System.out.println("Building the TF-idF table...");
 		
 		Set<String> termsOfTable = terms.keySet();
 		Set<Document> docs = documents.keySet();		
@@ -126,7 +126,7 @@ public class SequentialTFidF extends TFidF{
 				keyValue.delete(0, keyValue.length());
 			}
 		}
-		System.out.println("The TF-idF table was built");
+//		System.out.println("The TF-idF table was built");
 	}
 		
 }
