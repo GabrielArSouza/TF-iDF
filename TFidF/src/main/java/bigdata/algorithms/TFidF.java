@@ -1,4 +1,4 @@
-package algorithms;
+package bigdata.algorithms;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -76,7 +76,7 @@ public abstract class TFidF {
 			writer.write(str.toString());
 			str.delete(0,str.length());
 		}
-	    writer.close();
+	    writer.close();	
 	    System.out.println("save Term Frequency table in " + filename );
 	}
 	

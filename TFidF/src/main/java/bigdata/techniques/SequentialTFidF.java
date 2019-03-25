@@ -1,12 +1,12 @@
-package techniques;
+package bigdata.techniques;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Set;
 
-import algorithms.Document;
-import algorithms.TFidF;
+import bigdata.algorithms.Document;
+import bigdata.algorithms.TFidF;
 
 
 public class SequentialTFidF extends TFidF{
