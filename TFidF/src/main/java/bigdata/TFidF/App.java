@@ -28,11 +28,11 @@ public class App
 		for (int i=0; i<numberTestes; i++) {
 			long startTime = System.nanoTime();
 				
-//			SequentialTFidF tfSeq = new SequentialTFidF(filename);
-//			tfSeq.run();
-//			
-			MutexTFidF tfMtx = new MutexTFidF(filename);
-			tfMtx.run();
+			SequentialTFidF tfSeq = new SequentialTFidF(filename);
+			tfSeq.run();
+			
+//			MutexTFidF tfMtx = new MutexTFidF(filename);
+//			tfMtx.run();
 					
 	//		try {
 	//			tf.printTables();
@@ -42,7 +42,7 @@ public class App
 	//		
 			long endTime = System.nanoTime();
 			long totalTime = endTime - startTime;
-			System.out.println("loop" + i + " finished - time: " + totalTime/1000000 + " ns");
+			System.out.println("loop" + i + " finished - time: " + totalTime/1000000 + " ms");
 			averageTime += totalTime;
 		}
 		

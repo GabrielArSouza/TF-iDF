@@ -2,7 +2,7 @@ package bigdata.techniques.tools.mutex;
 
 public class MutexCounter {
 	
-	private int count;
+	private volatile int count;
 	private int limit;
 	
 	public MutexCounter (int limit) {
