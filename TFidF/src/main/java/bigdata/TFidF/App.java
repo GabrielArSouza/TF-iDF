@@ -16,7 +16,7 @@ public class App
 {
     public static void main( String[] args )
     {
-		String filename = "archive/forRead.txt";
+    	String filename = "archive/forRead.txt";
 		
 		StopWord sw = StopWordHolder.getStopWord();
 		System.out.println("read stop words file - " + sw.getNumberOfStopWords()
@@ -24,7 +24,7 @@ public class App
 		
 		System.out.println("Running algorithm...");
 		long averageTime = 0;
-		int numberTestes = 1;
+		int numberTestes = 30;
 		for (int i=0; i<numberTestes; i++) {
 			long startTime = System.nanoTime();
 				
@@ -35,6 +35,7 @@ public class App
 			tfMtx.run();
 					
 			try {
+//				tfSeq.printTables();
 				tfMtx.printTables();
 			}catch(IOException e) {
 				System.err.println("Something went wrong " + e.getMessage());

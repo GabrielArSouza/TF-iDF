@@ -42,25 +42,29 @@ public class MutexThreadTFidF extends Thread {
 		double value = 0.0;
 		double tfValue = 0.0;
 		String actualTerm = "";
-		
-		System.out.println("TFidF: A thread " + this.getId() + " foi iniciada");
+//		
+//		System.out.println("TFidF: A thread " + this.getId() + " foi iniciada");
 		while(!mtxCounter.isLimit()) {
+			
 			pos = mtxCounter.increment();
 			actualTerm = term.get(pos);
+			
 			for (Document doc : this.documents.keySet()) {
-				keyValue.append(doc.getName());
+				
 				keyValue.append(actualTerm);
+				keyValue.append("+");
+				keyValue.append(doc.getName());
 				
-				if (this.termFrequency.get(keyValue.toString()) == null)
-					tfValue = 0.0;
-				else tfValue = this.termFrequency.get(keyValue.toString());
-				value = tfValue * this.inverseDistance.get(actualTerm);
-				this.tfIdf.put(keyValue.toString(), value);
-				
+				if (this.termFrequency.get(keyValue.toString()) != null) {
+					tfValue = this.termFrequency.get(keyValue.toString());
+					value = tfValue * this.inverseDistance.get(actualTerm);
+					this.tfIdf.put(keyValue.toString(), value);
+				}
+							
 				keyValue.delete(0, keyValue.length());				
 			}
 		}	
-		System.out.println("A thread " + this.getId() + " terminou");
+//		System.out.println("A thread " + this.getId() + " terminou");
 	}
 	
 }
