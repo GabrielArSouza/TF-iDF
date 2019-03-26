@@ -71,7 +71,7 @@ public class SequentialTFidF extends TFidF{
 		}
 		
 		System.out.println("The term frequency table was built");
-		
+//		
 	}
 	
 	public void inverseDistance() {

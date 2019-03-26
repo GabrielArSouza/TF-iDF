@@ -3,6 +3,7 @@ package bigdata.TFidF;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import bigdata.techniques.MutexTFidF;
 import bigdata.techniques.SequentialTFidF;
 import bigdata.common.StopWord;
 import bigdata.common.StopWordHolder;
@@ -22,22 +23,33 @@ public class App
 			+ " stop words loaded");
 		
 		System.out.println("Running algorithm...");
-		long startTime = System.nanoTime();
-			
-		SequentialTFidF tf = new SequentialTFidF(filename);
-		tf.run();
+		long averageTime = 0;
+		int numberTestes = 1;
+		for (int i=0; i<numberTestes; i++) {
+			long startTime = System.nanoTime();
 				
-		try {
-			tf.printTables();
-		}catch(IOException e) {
-			System.err.println("Something went wrong " + e.getMessage());
+//			SequentialTFidF tfSeq = new SequentialTFidF(filename);
+//			tfSeq.run();
+			
+			MutexTFidF tfMtx = new MutexTFidF(filename);
+			tfMtx.run();
+					
+			try {
+				tfMtx.printTables();
+			}catch(IOException e) {
+				System.err.println("Something went wrong " + e.getMessage());
+			}
+	//		
+			long endTime = System.nanoTime();
+			long totalTime = endTime - startTime;
+			System.out.println("loop" + i + " finished - time: " + totalTime/1000000 + " ms");
+			averageTime += totalTime;
 		}
 		
-		long endTime = System.nanoTime();
-		long totalTime = endTime - startTime;
-		long convert = TimeUnit.MILLISECONDS.convert(totalTime, TimeUnit.NANOSECONDS);
+		averageTime /= (long) numberTestes;
+		long convert = TimeUnit.MILLISECONDS.convert(averageTime, TimeUnit.NANOSECONDS);
 		
 		System.out.println("Finish");
-		System.out.println("elapsed time: " + convert + " milisegundos ");
+		System.out.println("average elapsed time: " + convert + " milisegundos ");
     }
 }
