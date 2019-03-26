@@ -31,7 +31,8 @@ public class MutexThreadTermFrequency extends Thread{
 		Set<String> termsOfTable = terms.keySet();
 		double numberOfTimesAppears = 0;
 		Document doc;
-		System.out.println("Term Frequency: A thread " + this.getId() + " foi iniciada");
+//		System.out.println("Term Frequency: A thread " + this.getId() + " foi iniciada");
+		
 		while (!mtxCounter.isLimit()) {
 			
 			//System.out.println("Counter: " + pos + " - Thread " + this.getId() + " is running...");
@@ -39,16 +40,19 @@ public class MutexThreadTermFrequency extends Thread{
 			doc = docs.get(pos);
 			for (String s : termsOfTable) {
 				
-				keyValue.append(doc.getName());
 				keyValue.append(s);
+				keyValue.append("+");
+				keyValue.append(doc.getName());
+				
 				numberOfTimesAppears = (double) doc.numberOfOccurrencesTerm(s);
-				this.termFrequency.put(keyValue.toString(), numberOfTimesAppears/(double) doc.getNumberOfTerms());
+				if (numberOfTimesAppears != 0.0)
+					this.termFrequency.put(keyValue.toString(), numberOfTimesAppears/(double) doc.getNumberOfTerms());
 			
 				keyValue.delete(0, keyValue.length());
 			}
 			
 		}
-		System.out.println("A thread " + this.getId() + " terminou");
+//		System.out.println("A thread " + this.getId() + " terminou");
 	}
 	
 }
