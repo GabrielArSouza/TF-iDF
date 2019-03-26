@@ -48,7 +48,7 @@ public abstract class TFidF {
 	{
 		System.out.println("genereting the term frequency table...");
 		StringBuffer str = new StringBuffer("Term");
-		String filename = "archive/tableTermFrequency.csv";
+		String filename = "archive/MutextableTermFrequency.csv";
 		BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
 	  
 		// header
@@ -88,7 +88,7 @@ public abstract class TFidF {
 		
 		System.out.println("generating TF-idF file");
 		StringBuffer str = new StringBuffer("Term");
-		String filename = "archive/TF-idF.csv";
+		String filename = "archive/MutexTF-idF.csv";
 		BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
 		
 		

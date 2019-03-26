@@ -43,7 +43,9 @@ public class MutexThreadTFidF extends Thread {
 		double tfValue = 0.0;
 		String actualTerm = "";
 		
+		System.out.println("TFidF: A thread " + this.getId() + " foi iniciada");
 		while(!mtxCounter.isLimit()) {
+			pos = mtxCounter.increment();
 			actualTerm = term.get(pos);
 			for (Document doc : this.documents.keySet()) {
 				keyValue.append(doc.getName());
@@ -57,7 +59,8 @@ public class MutexThreadTFidF extends Thread {
 				
 				keyValue.delete(0, keyValue.length());				
 			}
-		}		
+		}	
+		System.out.println("A thread " + this.getId() + " terminou");
 	}
 	
 }

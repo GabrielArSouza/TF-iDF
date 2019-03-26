@@ -59,6 +59,10 @@ public class MutexTFidF extends TFidF {
 		MutexThreadConstructTerms t3 = new MutexThreadConstructTerms(count, doc, this.terms);
 		
 		t1.start(); t2.start(); t3.start();
+		while (t1.isAlive() || t2.isAlive() || t3.isAlive())
+		{ 
+			// wait all threads terminated		
+		}
 		
 //		System.out.println("Terms table built");
 	}
@@ -81,6 +85,10 @@ public class MutexTFidF extends TFidF {
 		MutexThreadTermFrequency t3 = new MutexThreadTermFrequency(count, doc, this.terms, this.termFrequency);
 		
 		t1.start(); t2.start(); t3.start();
+		while (t1.isAlive() || t2.isAlive() || t3.isAlive())
+		{ 
+			// wait all threads terminated		
+		}
 		
 //		System.out.println("The term frequency table was built");
 		
@@ -126,6 +134,10 @@ public class MutexTFidF extends TFidF {
 				this.terms, this.termFrequency, this.inverseDistance, this.tfIdf);
 		
 		t1.start(); t2.start(); t3.start();
+		while (t1.isAlive() || t2.isAlive() || t3.isAlive())
+		{ 
+			// wait all threads terminated		
+		}
 		
 //		System.out.println("The TF-idF table was built");		
 	}

@@ -60,7 +60,7 @@ public class StopWord {
 	 * @param s  the string
 	 * @return true if a stop word, false otherwise
 	 */
-	public boolean isStopWord (String s) {
+	public synchronized boolean isStopWord (String s) {
 		if (this.tableStopWord.containsKey(s)) return true;
 		else return false;
 	}

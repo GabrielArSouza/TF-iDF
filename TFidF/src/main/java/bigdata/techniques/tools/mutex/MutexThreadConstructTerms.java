@@ -21,12 +21,14 @@ public class MutexThreadConstructTerms extends Thread {
 	}
 	
 	public void run () {
+		System.out.println("Terms: A thread " + this.getId() + " foi iniciada");
 		int pos = 0;
 		while (!mtxCounter.isLimit()) {
 			pos = mtxCounter.increment();
 			for (String s : this.docs.get(pos).getTableTermOccurrence().keySet())
 				this.terms.put(s, 1);
 		}
+		System.out.println("A thread " + this.getId() + " terminou");
 	}
 	
 }

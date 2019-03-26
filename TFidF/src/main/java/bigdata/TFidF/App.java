@@ -28,17 +28,17 @@ public class App
 		for (int i=0; i<numberTestes; i++) {
 			long startTime = System.nanoTime();
 				
-			SequentialTFidF tfSeq = new SequentialTFidF(filename);
-			tfSeq.run();
+//			SequentialTFidF tfSeq = new SequentialTFidF(filename);
+//			tfSeq.run();
 			
-//			MutexTFidF tfMtx = new MutexTFidF(filename);
-//			tfMtx.run();
+			MutexTFidF tfMtx = new MutexTFidF(filename);
+			tfMtx.run();
 					
-	//		try {
-	//			tf.printTables();
-	//		}catch(IOException e) {
-	//			System.err.println("Something went wrong " + e.getMessage());
-	//		}
+			try {
+				tfMtx.printTables();
+			}catch(IOException e) {
+				System.err.println("Something went wrong " + e.getMessage());
+			}
 	//		
 			long endTime = System.nanoTime();
 			long totalTime = endTime - startTime;
