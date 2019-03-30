@@ -6,14 +6,14 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import bigdata.algorithms.Document;
 
-public class MutexInverseDistance extends Thread{
+public class MutexThreadInverseDocument extends Thread{
 
 	private final MutexCounter mtxCounter;
 	private final ArrayList<String> terms;
 	private final ConcurrentHashMap<Document, Integer> documents;
 	private ConcurrentHashMap<String, Double> inverseDistance;
 	
-	public MutexInverseDistance( MutexCounter mtxCounter, 
+	public MutexThreadInverseDocument( MutexCounter mtxCounter, 
 			ArrayList<String> terms, ConcurrentHashMap<Document, Integer> documents,
 			ConcurrentHashMap<String, Double> inverseDistance) 
 	{
@@ -28,13 +28,13 @@ public class MutexInverseDistance extends Thread{
 		Set<Document> docs = documents.keySet();
 		
 		double numDocs = (double) this.documents.size();
-		int count, pos=0;
+		int count;
+		Integer pos = null;
 		double value;
 		String actualTerm;
 		
-		while (!this.mtxCounter.isLimit()) {
+		while ((pos = mtxCounter.increment())!= null) {
 			
-			pos = this.mtxCounter.increment();
 			actualTerm = this.terms.get(pos);
 			count = 0;
 			

@@ -1,16 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-
-  <groupId>bigdata</groupId>
+  <groupId>bigdata.TFidF</groupId>
   <artifactId>TFidF</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <packaging>jar</packaging>
-
-  <name>TFidF</name>
-  <url>http://maven.apache.org</url>
   
-  <dependencies>
+   <dependencies>
   <dependency>
     <groupId>org.openjdk.jcstress</groupId>
     <artifactId>jcstress-core</artifactId>
@@ -20,9 +14,25 @@
 	<dependency>
     <groupId>org.openjdk.jmh</groupId>
     <artifactId>jmh-core</artifactId>
-    <version>0.1</version>
+    <version>1.19</version>
+	</dependency>
+	<dependency>
+	    <groupId>org.openjdk.jmh</groupId>
+	    <artifactId>jmh-generator-annprocess</artifactId>
+	    <version>1.19</version>
 	</dependency>
 	
+	<dependency>
+	<groupId>org.apache.jmeter</groupId>
+	<artifactId>ApacheJMeter_core</artifactId>
+	<version>5.1</version>
+	</dependency>
+	<dependency>
+	<groupId>org.apache.jmeter</groupId>
+	<artifactId>ApacheJMeter_java</artifactId>
+	<version>5.1</version>
+	</dependency>
+		
 	
   </dependencies>
   
@@ -58,7 +68,7 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <finalName>TesteJCStress</finalName>
+                            <finalName>TFidF</finalName>
                             <transformers>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
@@ -77,4 +87,5 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
 </properties> 
+  
 </project>

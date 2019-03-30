@@ -46,6 +46,7 @@ public abstract class TFidF {
 	
 	private void printTableTermFrequency () throws IOException
 	{
+	
 //		System.out.println("printing the term frequency table...");
 		StringBuffer str = new StringBuffer("Term; Document; Value \n");
 		
@@ -106,5 +107,9 @@ public abstract class TFidF {
 	
 	public int getNumberOfDocuments () {
 		return this.documents.size();
+	}
+	
+	public ConcurrentHashMap<String, Double> getTFidF(){
+		return this.tfIdf;
 	}
 }

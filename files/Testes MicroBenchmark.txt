@@ -1,0 +1,102 @@
+Testes MicroBenchmark
+Using JMH
+-----------------------
+
+-------------------------------------
+1º Teste
+Operation : readDocuments
+Fork      : value=1 and warmups = 2
+Warmup    : 5 iterations 
+time      : ms
+-------------------------------------
+
+Algorithm : Sequential TFidF
+
+29483,501 ±(99.9%) 277,082 us/op [Average]
+(min, avg, max) = (28964,589, 29483,501, 30265,105), stdev = 319,088
+CI (99.9%): [29206,420, 29760,583] (assumes normal distribution)
+
+# Run complete. Total time: 00:01:17
+Benchmark             Mode  Cnt      Score     Error  Units
+TFidF.BenchTest.init  avgt   20  29483,501 ± 277,082  us/op
+
+---
+
+Algorithm : Mutex TFidF (10 threads)
+
+30338,913 ±(99.9%) 409,960 us/op [Average]
+(min, avg, max) = (29951,042, 30338,913, 31940,711), stdev = 472,110
+CI (99.9%): [29928,953, 30748,872] (assumes normal distribution)
+
+# Run complete. Total time: 00:01:17
+Benchmark             Mode  Cnt      Score     Error  Units
+TFidF.BenchTest.init  avgt   20  30338,913 ± 409,960  us/op
+
+-------------------------------------
+2º Teste
+Operation : constructTerms
+Fork      : value=1 and warmups = 2
+Warmup    : 5 iterations 
+time      : ms
+-------------------------------------
+
+Algorithm : Sequential TFidF
+
+34573,304 ±(99.9%) 269,164 us/op [Average]
+(min, avg, max) = (34033,958, 34573,304, 35123,821), stdev = 309,970
+CI (99.9%): [34304,140, 34842,468] (assumes normal distribution)
+
+# Run complete. Total time: 00:01:17
+Benchmark             Mode  Cnt      Score     Error  Units
+TFidF.BenchTest.init  avgt   20  34573,304 ± 269,164  us/op
+
+Algorithm : Mutex TFidF (10 threads + 4)
+
+34794,954 ±(99.9%) 836,460 us/op [Average]
+(min, avg, max) = (34026,635, 34794,954, 38293,786), stdev = 963,268
+CI (99.9%): [33958,494, 35631,413] (assumes normal distribution)
+
+# Run complete. Total time: 00:01:17
+Benchmark             Mode  Cnt      Score     Error  Units
+TFidF.BenchTest.init  avgt   20  34794,954 ± 836,460  us/op
+
+-------------------------------------
+3º Teste
+Operation : constructTerms
+Fork      : value=1 and warmups = 2
+Warmup    : 5 iterations 
+time      : ms
+-------------------------------------
+
+Algorithm : Sequential TFidF
+
+325029,564 ±(99.9%) 7079,324 us/op [Average]
+(min, avg, max) = (310163,470, 325029,564, 343778,683), stdev = 8152,560
+CI (99.9%): [317950,240, 332108,888] (assumes normal distribution)
+
+# Run complete. Total time: 00:01:33
+Benchmark             Mode  Cnt       Score      Error  Units
+TFidF.BenchTest.init  avgt   20  325029,564 ± 7079,324  us/op
+
+Algorithm : Mutex TFidF 
+
+156448,188 ±(99.9%) 2519,887 us/op [Average]
+(min, avg, max) = (151395,429, 156448,188, 164472,401), stdev = 2901,905
+CI (99.9%): [153928,302, 158968,075] (assumes normal distribution)
+
+# Run complete. Total time: 00:01:23
+Benchmark             Mode  Cnt       Score      Error  Units
+TFidF.BenchTest.init  avgt   20  156448,188 ± 2519,887  us/op
+
+
+
+
+
+
+
+
+
+
+
+
+
