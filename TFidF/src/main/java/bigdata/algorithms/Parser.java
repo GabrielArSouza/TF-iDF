@@ -13,8 +13,15 @@ public class Parser {
 
 	//<! Attributes
 	private final String document;
-	private final int numberOfProcessedTerms;
+	private int numberOfProcessedTerms;
 	private final ConcurrentHashMap<String, Integer> processedTerms;
+	
+	
+	// For tests
+	public Parser() {
+		this.document = "test";
+		this.processedTerms = new ConcurrentHashMap<String, Integer>();
+	}
 	
 	/**
 	 * The constructor
@@ -22,14 +29,13 @@ public class Parser {
 	 */
 	public Parser ( String document ){ 
 		this.document = document; 
+		this.numberOfProcessedTerms = 0;
 		this.processedTerms = this.processTerms();
-		this.numberOfProcessedTerms = processedTerms.size();
 	}
 
 	private ConcurrentHashMap<String, Integer> processTerms(){ 
 		
 		ConcurrentHashMap<String, Integer> terms = new ConcurrentHashMap<String, Integer>();
-		StopWord sw = StopWordHolder.getStopWord();
 		
 		try {
 			
@@ -54,7 +60,8 @@ public class Parser {
 		        	for (String s : singleTerm)
 		        	{
 		        		// save the words
-		        		if (!sw.isStopWord(s) && !s.trim().equals("")) {
+		        		if (!s.trim().equals("")) {
+		        			this.numberOfProcessedTerms++;
 		        			if (terms.containsKey(s))
 				        		terms.replace(s, terms.get(s)+1);
 				        	else { terms.put(s, new Integer(1));}

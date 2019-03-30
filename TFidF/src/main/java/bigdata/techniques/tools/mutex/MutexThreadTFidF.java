@@ -37,16 +37,15 @@ public class MutexThreadTFidF extends Thread {
 		for (String s : this.terms.keySet())
 			term.add(s);
 		
-		int pos = 0;
+		Integer pos = null;
 		StringBuffer keyValue = new StringBuffer("");
 		double value = 0.0;
 		double tfValue = 0.0;
 		String actualTerm = "";
 //		
 //		System.out.println("TFidF: A thread " + this.getId() + " foi iniciada");
-		while(!mtxCounter.isLimit()) {
+		while((pos = mtxCounter.increment())!=null) {
 			
-			pos = mtxCounter.increment();
 			actualTerm = term.get(pos);
 			
 			for (Document doc : this.documents.keySet()) {

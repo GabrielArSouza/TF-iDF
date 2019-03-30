@@ -7,6 +7,8 @@ import java.util.Set;
 
 import bigdata.algorithms.Document;
 import bigdata.algorithms.TFidF;
+import bigdata.common.StopWord;
+import bigdata.common.StopWordHolder;
 
 
 public class SequentialTFidF extends TFidF{
@@ -28,7 +30,6 @@ public class SequentialTFidF extends TFidF{
 				line = readFile.readLine();
 				count++;
 			}
-			System.out.println( count +  " files were read" );
 			file.close();
 		} catch (IOException e1) {
 			System.err.println("could not open file " + this.urlDocuments 
@@ -38,11 +39,15 @@ public class SequentialTFidF extends TFidF{
 	
 	public void constructTerms() {
 //		System.out.println("Building the terms table...");
+		StopWord sw = StopWordHolder.getStopWord();
 		
 		Set<Document> docs = documents.keySet();
 		for (Document doc : docs) {
-			for (String s : doc.getTableTermOccurrence().keySet())
-				this.terms.put(s, 1);
+			for (String s : doc.getTableTermOccurrence().keySet()) {
+				if (!sw.isStopWord(s)) {
+					this.terms.put(s, 1);
+				}else doc.incrementStopWords(doc.numberOfOccurrencesTerm(s));
+			}
 		}
 		
 //		System.out.println("Terms table built");

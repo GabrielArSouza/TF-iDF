@@ -5,13 +5,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import bigdata.algorithms.Document;
 
-public class MutexReadDocuments extends Thread {
+public class MutexThreadReadDocuments extends Thread {
 
 	private final MutexCounter mtxCounter;
 	private final ArrayList<String> urls;
 	private ConcurrentHashMap<Document, Integer> documents;
 	
-	public MutexReadDocuments (MutexCounter mtxCounter, 
+	public MutexThreadReadDocuments (MutexCounter mtxCounter, 
 		   ArrayList<String> urls,
 		   ConcurrentHashMap<Document, Integer> documents)
 	{
@@ -21,9 +21,8 @@ public class MutexReadDocuments extends Thread {
 	}
 	
 	public void run () {
-		int pos = 0;
-		while (!mtxCounter.isLimit()) {
-			pos = mtxCounter.increment();
+		Integer pos = null;
+		while ((pos = mtxCounter.increment())!=null) {
 			this.documents.put(new Document(urls.get(pos)), pos);
 		}
 	}

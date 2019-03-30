@@ -9,8 +9,8 @@ import java.util.Set;
 import bigdata.algorithms.Document;
 import bigdata.algorithms.TFidF;
 import bigdata.techniques.tools.mutex.MutexCounter;
-import bigdata.techniques.tools.mutex.MutexInverseDistance;
-import bigdata.techniques.tools.mutex.MutexReadDocuments;
+import bigdata.techniques.tools.mutex.MutexThreadInverseDocument;
+import bigdata.techniques.tools.mutex.MutexThreadReadDocuments;
 import bigdata.techniques.tools.mutex.MutexThreadConstructTerms;
 import bigdata.techniques.tools.mutex.MutexThreadTFidF;
 import bigdata.techniques.tools.mutex.MutexThreadTermFrequency;
@@ -44,23 +44,22 @@ public class MutexTFidF extends TFidF {
 		}
 		
 		// Get Counter
+	    int numberOfThreads = 10;
 		MutexCounter count = new MutexCounter(urls.size()-1);
-		ArrayList<MutexReadDocuments> threads = new ArrayList<MutexReadDocuments>();
+		MutexThreadReadDocuments threads[] = new MutexThreadReadDocuments[numberOfThreads];
 		
-		for (int i=0; i<40; i++) {
-			threads.add(new MutexReadDocuments(count, urls, this.documents));
-			threads.get(i).start();
+		
+		for (int i=0; i<numberOfThreads; i++) {
+			threads[i] = new MutexThreadReadDocuments(count, urls, this.documents);
+			threads[i].start();
+		}	
+		
+		boolean isAlive = true;
+		while ( isAlive ){
+			isAlive = false;
+			for (int i=0; i < numberOfThreads; i++)
+				if (threads[i].isAlive()) isAlive = true;
 		}
-		
-		boolean isComplete = false;
-		int alive = 0;
-		while (!isComplete) {
-			for (MutexReadDocuments t : threads)
-				if (t.isAlive()) alive++;
-			if (alive == 0) isComplete = true;
-			alive = 0;
-		}
-		
 	}
 
 	@Override
@@ -75,15 +74,23 @@ public class MutexTFidF extends TFidF {
 		
 		// Get Counter
 		MutexCounter count = new MutexCounter(docs.size()-1);
+		int numberOfThreads = Runtime.getRuntime().availableProcessors();
+		MutexThreadConstructTerms threads[] = new MutexThreadConstructTerms[numberOfThreads];
 		
-		MutexThreadConstructTerms t1 = new MutexThreadConstructTerms(count, doc, this.terms);
-		MutexThreadConstructTerms t2 = new MutexThreadConstructTerms(count, doc, this.terms);
-		MutexThreadConstructTerms t3 = new MutexThreadConstructTerms(count, doc, this.terms);
-		MutexThreadConstructTerms t4 = new MutexThreadConstructTerms(count, doc, this.terms);
+		for (int i=0; i < numberOfThreads; i++) {
+			threads[i] = new MutexThreadConstructTerms(count, doc, this.terms);
+			threads[i].start();
+//			try {threads[i].join();} 
+//			catch (InterruptedException e) {e.printStackTrace();}			
+		}
 		
-		t1.start(); t2.start(); t3.start(); t4.start();
-		while (t1.isAlive() || t2.isAlive() || t3.isAlive() || t4.isAlive())
-		{ /* wait all threads terminated */	}
+//		t1.start(); t2.start(); t3.start(); t4.start();
+		boolean isAlive = true;
+		while ( isAlive ){
+			isAlive = false;
+			for (int i=0; i < numberOfThreads; i++)
+				if (threads[i].isAlive()) isAlive = true;
+		}
 		
 //		System.out.println("Terms table built");
 	}
@@ -100,16 +107,22 @@ public class MutexTFidF extends TFidF {
 		
 		// Get Counter
 		MutexCounter count = new MutexCounter(docs.size()-1);
+		int numberOfThreads = Runtime.getRuntime().availableProcessors();
+		MutexThreadTermFrequency threads[] = new MutexThreadTermFrequency[numberOfThreads];
 		
-		MutexThreadTermFrequency t1 = new MutexThreadTermFrequency(count, doc, this.terms, this.termFrequency);
-		MutexThreadTermFrequency t2 = new MutexThreadTermFrequency(count, doc, this.terms, this.termFrequency);
-		MutexThreadTermFrequency t3 = new MutexThreadTermFrequency(count, doc, this.terms, this.termFrequency);
-		MutexThreadTermFrequency t4 = new MutexThreadTermFrequency(count, doc, this.terms, this.termFrequency);
-		
-		t1.start(); t2.start(); t3.start(); t4.start();
-		while (t1.isAlive() || t2.isAlive() || t3.isAlive() || t4.isAlive())
-		{ /* wait all threads terminated */	}
-		
+		for (int i=0; i < numberOfThreads; i++) {
+			threads[i] = new MutexThreadTermFrequency(count, doc, this.terms, this.termFrequency);
+			threads[i].start();
+//			try {threads[i].join();} 
+//			catch (InterruptedException e) {e.printStackTrace();}			
+		}
+//		t1.start(); t2.start(); t3.start(); t4.start();
+		boolean isAlive = true;
+		while ( isAlive ){
+			isAlive = false;
+			for (int i=0; i < numberOfThreads; i++)
+				if (threads[i].isAlive()) isAlive = true;
+		}
 //		System.out.println("The term frequency table was built");
 		
 	}
@@ -125,15 +138,21 @@ public class MutexTFidF extends TFidF {
 			term.add(t);
 
 		MutexCounter mtxCounter = new MutexCounter(this.terms.size()-1);
+		int numberOfThreads = Runtime.getRuntime().availableProcessors();
+		MutexThreadInverseDocument threads[] = new MutexThreadInverseDocument[numberOfThreads];
 		
-		MutexInverseDistance t1 = new MutexInverseDistance(mtxCounter, term, this.documents, this.inverseDistance);
-		MutexInverseDistance t2 = new MutexInverseDistance(mtxCounter, term, this.documents, this.inverseDistance);
-		MutexInverseDistance t3 = new MutexInverseDistance(mtxCounter, term, this.documents, this.inverseDistance);
-		MutexInverseDistance t4 = new MutexInverseDistance(mtxCounter, term, this.documents, this.inverseDistance);
+		for (int i=0; i < numberOfThreads; i++) {
+			threads[i] = new MutexThreadInverseDocument(mtxCounter, term, this.documents, this.inverseDistance);
+			threads[i].start();
+		}
 		
-		t1.start(); t2.start(); t3.start(); t4.start();
-		while (t1.isAlive() || t2.isAlive() || t3.isAlive() || t4.isAlive())
-		{ /*wait all threads terminate*/}
+//		t1.start(); t2.start(); t3.start(); t4.start();
+		boolean isAlive = true;
+		while ( isAlive ){
+			isAlive = false;
+			for (int i=0; i < numberOfThreads; i++)
+				if (threads[i].isAlive()) isAlive = true;
+		}
 		
 //		System.out.println("The inverse distance table was built");
 	}
@@ -144,19 +163,24 @@ public class MutexTFidF extends TFidF {
 		
 		// Get Counter
 		MutexCounter count = new MutexCounter(terms.size()-1);
+		int numberOfThreads = Runtime.getRuntime().availableProcessors();
+		MutexThreadTFidF threads[] = new MutexThreadTFidF[numberOfThreads];
 		
-		MutexThreadTFidF t1 = new MutexThreadTFidF(count, this.documents,
-				this.terms, this.termFrequency, this.inverseDistance, this.tfIdf);
-		MutexThreadTFidF t2 = new MutexThreadTFidF(count, this.documents,
-				this.terms, this.termFrequency, this.inverseDistance, this.tfIdf);
-		MutexThreadTFidF t3 = new MutexThreadTFidF(count, this.documents,
-				this.terms, this.termFrequency, this.inverseDistance, this.tfIdf);
-		MutexThreadTFidF t4 = new MutexThreadTFidF(count, this.documents,
-				this.terms, this.termFrequency, this.inverseDistance, this.tfIdf);
+		for (int i=0; i < numberOfThreads; i++) {
+			threads[i] = new MutexThreadTFidF(count, this.documents,
+					this.terms, this.termFrequency, this.inverseDistance, this.tfIdf);
+			threads[i].start();
+			try {threads[i].join();} 
+			catch (InterruptedException e) {e.printStackTrace();}			
+		}
 		
-		t1.start(); t2.start(); t3.start(); t4.start();
-		while (t1.isAlive() || t2.isAlive() || t3.isAlive() || t4.isAlive())
-		{ /* wait all threads terminated*/ }
+//		t1.start(); t2.start(); t3.start(); t4.start();
+		boolean isAlive = true;
+		while ( isAlive ){
+			isAlive = false;
+			for (int i=0; i < numberOfThreads; i++)
+				if (threads[i].isAlive()) isAlive = true;
+		}
 		
 //		System.out.println("The TF-idF table was built");		
 	}

@@ -12,6 +12,19 @@ public class Document {
 	private final ConcurrentHashMap<String, Integer> tableTermOccurrence;
 	private final Parser parser;
 	private final String name;
+	private int numberOfStopWords;
+	
+	/**
+	 * For tests
+	 */
+	public Document (String url, int numberOfTerms) {
+		this.url = url;
+		this.name = "test";
+		this.numberOfTerms = numberOfTerms;
+		
+		this.tableTermOccurrence = new ConcurrentHashMap<String, Integer>();
+		this.parser = new Parser();
+	}
 	
 	/**
 	 * Construct 
@@ -21,9 +34,10 @@ public class Document {
 	{
 		this.url = url;
 		this.parser = new Parser(url);
-		this.tableTermOccurrence = parser.getProcessedTerms() ;
+		this.tableTermOccurrence = parser.getProcessedTerms();
 		this.numberOfTerms = parser.getNumberOfProcessedTerms();
 		this.name = getNameFromURL();
+		this.numberOfStopWords = 0;
 	}
 	
 	public void printTerms ()
@@ -62,7 +76,7 @@ public class Document {
 	}
 
 	public int getNumberOfTerms() {
-		return numberOfTerms;
+		return numberOfTerms - numberOfStopWords;
 	}
 
 	public ConcurrentHashMap<String, Integer> getTableTermOccurrence() {
@@ -71,5 +85,14 @@ public class Document {
 	
 	public String getName () {
 		return this.name;
+	}
+	
+	public void incrementStopWords(int value) {
+		this.numberOfStopWords += value;
+	}
+	
+	@Override
+	public String toString() {
+		return this.url;
 	}
 }
