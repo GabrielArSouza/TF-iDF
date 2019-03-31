@@ -80,3 +80,6 @@ local.properties
 .worksheet
 
 *.csv
+
+#ignore JMeter
+apache-jmeter-5.1.1/

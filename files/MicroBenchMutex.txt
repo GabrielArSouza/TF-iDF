@@ -1,0 +1,70 @@
+1º Mutex TFidF
+warmup  = 2 - 5 iterations
+Mode    = average
+time    = ms
+-----------------------------
+-> readDocuments()
+
+Result "bigdata.TFidF.jmh.BenchTest.init":
+  16,701 ±(99.9%) 0,231 ms/op [Average]
+  (min, avg, max) = (16,267, 16,701, 17,472), stdev = 0,266
+  CI (99.9%): [16,470, 16,932] (assumes normal distribution)
+
+# Run complete. Total time: 00:01:17
+Benchmark                 Mode  Cnt   Score   Error  Units
+TFidF.jmh.BenchTest.init  avgt   20  16,701 ± 0,231  ms/op
+
+-> constructTerms()
+
+Result "bigdata.TFidF.jmh.BenchTest.init":
+  28,584 ±(99.9%) 1,233 ms/op [Average]
+  (min, avg, max) = (26,923, 28,584, 32,629), stdev = 1,420
+  CI (99.9%): [27,351, 29,817] (assumes normal distribution)
+
+# Run complete. Total time: 00:01:17
+Benchmark                 Mode  Cnt   Score   Error  Units
+TFidF.jmh.BenchTest.init  avgt   20  28,584 ± 1,233  ms/op
+
+-> termFrequency()
+
+Result "bigdata.TFidF.jmh.BenchTest.init":
+  154,296 ±(99.9%) 1,573 ms/op [Average]
+  (min, avg, max) = (152,161, 154,296, 158,225), stdev = 1,812
+  CI (99.9%): [152,722, 155,869] (assumes normal distribution)
+
+# Run complete. Total time: 00:01:22
+Benchmark                 Mode  Cnt    Score   Error  Units
+TFidF.jmh.BenchTest.init  avgt   20  154,296 ± 1,573  ms/op
+
+-> inverseDistance()
+
+Result "bigdata.TFidF.jmh.BenchTest.init":
+  219,783 ±(99.9%) 3,828 ms/op [Average]
+  (min, avg, max) = (214,429, 219,783, 234,134), stdev = 4,408
+  CI (99.9%): [215,955, 223,611] (assumes normal distribution)
+
+# Run complete. Total time: 00:01:24
+Benchmark                 Mode  Cnt    Score   Error  Units
+TFidF.jmh.BenchTest.init  avgt   20  219,783 ± 3,828  ms/op
+
+-> tfidfTable()
+
+Result "bigdata.TFidF.jmh.BenchTest.init":
+  560,337 ±(99.9%) 8,361 ms/op [Average]
+  (min, avg, max) = (547,475, 560,337, 589,838), stdev = 9,628
+  CI (99.9%): [551,977, 568,698] (assumes normal distribution)
+
+# Run complete. Total time: 00:01:28
+Benchmark                 Mode  Cnt    Score   Error  Units
+TFidF.jmh.BenchTest.init  avgt   20  560,337 ± 8,361  ms/op
+
+-> print()
+
+Result "bigdata.TFidF.jmh.BenchTest.init":
+  672,415 ±(99.9%) 6,380 ms/op [Average]
+  (min, avg, max) = (661,056, 672,415, 689,718), stdev = 7,348
+  CI (99.9%): [666,035, 678,796] (assumes normal distribution)
+
+# Run complete. Total time: 00:01:47
+Benchmark                 Mode  Cnt    Score   Error  Units
+TFidF.jmh.BenchTest.init  avgt   20  672,415 ± 6,380  ms/op

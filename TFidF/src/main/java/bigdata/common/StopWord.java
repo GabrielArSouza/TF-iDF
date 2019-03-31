@@ -22,7 +22,7 @@ public class StopWord {
 	 * @param filename The URL for stop words file
 	 */
 	public StopWord() {
-		this.filename = "archive/stopWords.in";
+		this.filename = "/home/gabriel/Códigos/java/TF-iDF/TFidF/archive/stopWords.in";
 		this.tableStopWord = new ConcurrentHashMap<String, Integer>();
 		this.numberOfStopWords = this.constructTrableStopWords();
 	}

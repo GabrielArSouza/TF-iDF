@@ -50,7 +50,7 @@ public abstract class TFidF {
 //		System.out.println("printing the term frequency table...");
 		StringBuffer str = new StringBuffer("Term; Document; Value \n");
 		
-		String filename = "archive/tableTermFrequency.csv";
+		String filename = "/home/gabriel/Códigos/java/TF-iDF/TFidF/archive/tableTermFrequency.csv";
 		BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
 		String[] parser;
 		
@@ -82,7 +82,7 @@ public abstract class TFidF {
 //		System.out.println("generating TF-idF file");
 		StringBuffer str = new StringBuffer("Term; Document; Value \n");
 		
-		String filename = "archive/TF-idF.csv";
+		String filename = "/home/gabriel/Códigos/java/TF-iDF/TFidF/archive/TF-idF.csv";
 		BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
 		String[] parser;
 		

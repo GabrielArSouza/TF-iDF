@@ -1,5 +1,6 @@
 package bigdata.TFidF.jmeter;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 import org.apache.jmeter.config.Arguments;
@@ -9,6 +10,7 @@ import org.apache.jmeter.samplers.SampleResult;
 
 import bigdata.common.StopWordHolder;
 import bigdata.techniques.MutexTFidF;
+import bigdata.techniques.SemaphoreTFidF;
 import bigdata.techniques.SequentialTFidF;
 
 public class TestMacro extends AbstractJavaSamplerClient implements Serializable {
@@ -22,8 +24,14 @@ public class TestMacro extends AbstractJavaSamplerClient implements Serializable
 		
 		String filename = "/home/gabriel/Códigos/java/TF-iDF/TFidF/archive/forRead.txt";
 		StopWordHolder.getStopWord();
-		MutexTFidF tf = new MutexTFidF(filename);
+		SemaphoreTFidF tf = new SemaphoreTFidF(filename);
 		tf.run();
+		
+		try {
+			tf.printTables();
+		}catch(IOException e) {
+			System.err.println("Something went wrong " + e.getMessage());
+		}
 		
 		result.sampleEnd();
 		result.setResponseCode("200");

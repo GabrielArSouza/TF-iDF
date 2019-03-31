@@ -25,7 +25,7 @@ public class SemaphoreDocumentControllerTest {
 		@Actor
 		public void actor1 (MyState myState, LL_Result r) {
 			try {
-				r.r1 = myState.getNext();
+				r.r1 = myState.getNext().toString();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -34,7 +34,7 @@ public class SemaphoreDocumentControllerTest {
 		@Actor
 		public void actor2 (MyState myState, LL_Result r) {
 			try {
-				r.r2 = myState.getNext();
+				r.r2 = myState.getNext().toString();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
