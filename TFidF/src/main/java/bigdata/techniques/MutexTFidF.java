@@ -60,6 +60,7 @@ public class MutexTFidF extends TFidF {
 			for (int i=0; i < numberOfThreads; i++)
 				if (threads[i].isAlive()) isAlive = true;
 		}
+		System.out.println(documents.keySet().size() + " documentos lidos");
 	}
 
 	@Override

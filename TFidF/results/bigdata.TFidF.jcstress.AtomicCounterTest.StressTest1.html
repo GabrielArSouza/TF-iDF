@@ -22,9 +22,9 @@
  </style>
 </head>
 <body>
-<h1>bigdata.TFidF.jcstress.SemaphoreStringControllerTest.StressTest1</h1>
+<h1>bigdata.TFidF.jcstress.AtomicCounterTest.StressTest1</h1>
 <h3>Description and references</h3>
-<p>Test SemaphoreURLController class</p>
+<p>Test MutexCounter class</p>
 <h3>Environment</h3>
 <table>
 <tr>
@@ -115,20 +115,56 @@ Stride: [10, 10000] (capped by NONE)</td>
 <th>Interpretation</th>
 </tr>
 <tr>
-<td align='center'>a, b</td>
-<td align='right' width='7.5%' bgColor=#00ff00>4175350</td>
-<td align='right' width='7.5%' bgColor=#00ff00>4203310</td>
-<td align='right' width='7.5%' bgColor=#00ff00>3812970</td>
-<td align='right' width='7.5%' bgColor=#00ff00>412330</td>
+<td align='center'>0, 1, 2</td>
+<td align='right' width='7.5%' bgColor=#00ff00>6977733</td>
+<td align='right' width='7.5%' bgColor=#00ff00>6823776</td>
+<td align='right' width='7.5%' bgColor=#00ff00>7410828</td>
+<td align='right' width='7.5%' bgColor=#00ff00>650160</td>
 <td>ACCEPTABLE</td>
 <td></td>
 </tr>
 <tr>
-<td align='center'>b, a</td>
-<td align='right' width='7.5%' bgColor=#00ff00>6169141</td>
-<td align='right' width='7.5%' bgColor=#00ff00>5238511</td>
-<td align='right' width='7.5%' bgColor=#00ff00>2923901</td>
-<td align='right' width='7.5%' bgColor=#00ff00>590021</td>
+<td align='center'>0, 2, 1</td>
+<td align='right' width='7.5%' bgColor=#00ff00>3160859</td>
+<td align='right' width='7.5%' bgColor=#00ff00>6362995</td>
+<td align='right' width='7.5%' bgColor=#00ff00>5875781</td>
+<td align='right' width='7.5%' bgColor=#00ff00>154087</td>
+<td>ACCEPTABLE</td>
+<td></td>
+</tr>
+<tr>
+<td align='center'>1, 0, 2</td>
+<td align='right' width='7.5%' bgColor=#00ff00>6486011</td>
+<td align='right' width='7.5%' bgColor=#00ff00>4635109</td>
+<td align='right' width='7.5%' bgColor=#00ff00>5802521</td>
+<td align='right' width='7.5%' bgColor=#00ff00>414830</td>
+<td>ACCEPTABLE</td>
+<td></td>
+</tr>
+<tr>
+<td align='center'>1, 2, 0</td>
+<td align='right' width='7.5%' bgColor=#00ff00>1810295</td>
+<td align='right' width='7.5%' bgColor=#00ff00>4238321</td>
+<td align='right' width='7.5%' bgColor=#00ff00>2520067</td>
+<td align='right' width='7.5%' bgColor=#00ff00>358968</td>
+<td>ACCEPTABLE</td>
+<td></td>
+</tr>
+<tr>
+<td align='center'>2, 0, 1</td>
+<td align='right' width='7.5%' bgColor=#00ff00>2193878</td>
+<td align='right' width='7.5%' bgColor=#00ff00>1420694</td>
+<td align='right' width='7.5%' bgColor=#00ff00>2442446</td>
+<td align='right' width='7.5%' bgColor=#00ff00>156676</td>
+<td>ACCEPTABLE</td>
+<td></td>
+</tr>
+<tr>
+<td align='center'>2, 1, 0</td>
+<td align='right' width='7.5%' bgColor=#00ff00>937195</td>
+<td align='right' width='7.5%' bgColor=#00ff00>1305106</td>
+<td align='right' width='7.5%' bgColor=#00ff00>1524818</td>
+<td align='right' width='7.5%' bgColor=#00ff00>296450</td>
 <td>ACCEPTABLE</td>
 <td></td>
 </tr>
