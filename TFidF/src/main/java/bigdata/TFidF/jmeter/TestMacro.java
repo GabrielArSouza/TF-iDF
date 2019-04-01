@@ -9,6 +9,7 @@ import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
 import org.apache.jmeter.samplers.SampleResult;
 
 import bigdata.common.StopWordHolder;
+import bigdata.techniques.HybridTFidF;
 import bigdata.techniques.MutexTFidF;
 import bigdata.techniques.SemaphoreTFidF;
 import bigdata.techniques.SequentialTFidF;
@@ -24,7 +25,7 @@ public class TestMacro extends AbstractJavaSamplerClient implements Serializable
 		
 		String filename = "/home/gabriel/Códigos/java/TF-iDF/TFidF/archive/forRead.txt";
 		StopWordHolder.getStopWord();
-		SemaphoreTFidF tf = new SemaphoreTFidF(filename);
+		HybridTFidF tf = new HybridTFidF(filename);
 		tf.run();
 		
 		try {

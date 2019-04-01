@@ -12,6 +12,7 @@ import org.openjdk.jmh.annotations.Warmup;
 
 import bigdata.common.StopWord;
 import bigdata.common.StopWordHolder;
+import bigdata.techniques.HybridTFidF;
 import bigdata.techniques.MutexTFidF;
 import bigdata.techniques.SemaphoreTFidF;
 import bigdata.techniques.SequentialTFidF;
@@ -29,15 +30,15 @@ public class BenchTest {
 		StopWordHolder.getStopWord();
 		SemaphoreTFidF tf = new SemaphoreTFidF(filename);
 		tf.readDocuments();
-		tf.constructTerms();
-		tf.termFrequency();
-		tf.inverseDistance();
-		tf.tfidfTable();
+//		tf.constructTerms();
+//		tf.termFrequency();
+//		tf.inverseDistance();
+//		tf.tfidfTable();
 		
-		try {
-			tf.printTables();
-		}catch(IOException e) {
-			System.err.println("Something went wrong " + e.getMessage());
-		}
+//		try {
+//			tf.printTables();
+//		}catch(IOException e) {
+//			System.err.println("Something went wrong " + e.getMessage());
+//		}
 	}
 }

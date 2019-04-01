@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
+import bigdata.techniques.HybridTFidF;
 import bigdata.techniques.MutexTFidF;
 import bigdata.techniques.SemaphoreTFidF;
 import bigdata.techniques.SequentialTFidF;
@@ -62,7 +63,7 @@ public class App
 		for (int i=0; i<numberTestes; i++) {
 			long startTime = System.nanoTime();
 				
-			MutexTFidF tf = new MutexTFidF(filename);
+			HybridTFidF tf = new HybridTFidF(filename);
 			tf.run();
 					
 			try {
