@@ -8,7 +8,7 @@ import org.openjdk.jcstress.annotations.Outcome;
 import org.openjdk.jcstress.annotations.State;
 import org.openjdk.jcstress.infra.results.LL_Result;
 
-import bigdata.algorithms.Document;
+//import bigdata.algorithms.Document;
 import bigdata.techniques.tools.semaphore.SemaphoreDocumentController;
 
 

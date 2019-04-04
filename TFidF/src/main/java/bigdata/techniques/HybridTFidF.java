@@ -27,6 +27,7 @@ public class HybridTFidF extends TFidF{
 
 	@Override
 	public void readDocuments() {
+		System.out.println("Running Hybrid TFidF");
 		Stack<String> urls = new Stack<String>();
 		
 		try {
@@ -47,7 +48,7 @@ public class HybridTFidF extends TFidF{
 		} 
 		
 		// Get Counter
-	    int numberOfThreads = 10;
+	    int numberOfThreads = 7;
 		SemaphoreStringController semaphore = new SemaphoreStringController(urls);
 		SemaphoreThreadReadDocuments threads[] = new SemaphoreThreadReadDocuments[numberOfThreads];
 		

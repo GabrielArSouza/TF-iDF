@@ -3,17 +3,17 @@ package bigdata.techniques;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.Set;
 import java.util.Stack;
 
 import bigdata.algorithms.Document;
 import bigdata.algorithms.TFidF;
-import bigdata.techniques.tools.mutex.MutexCounter;
-import bigdata.techniques.tools.mutex.MutexThreadReadDocuments;
-import bigdata.techniques.tools.mutex.MutexThreadTermFrequency;
-import bigdata.techniques.tools.mutex.MutexThreadConstructTerms;
-import bigdata.techniques.tools.mutex.MutexThreadInverseDocument;
+//import bigdata.techniques.tools.mutex.MutexCounter;
+//import bigdata.techniques.tools.mutex.MutexThreadReadDocuments;
+//import bigdata.techniques.tools.mutex.MutexThreadTermFrequency;
+//import bigdata.techniques.tools.mutex.MutexThreadConstructTerms;
+//import bigdata.techniques.tools.mutex.MutexThreadInverseDocument;
 import bigdata.techniques.tools.semaphore.SemaphoreDocumentController;
 import bigdata.techniques.tools.semaphore.SemaphoreThreadReadDocuments;
 import bigdata.techniques.tools.semaphore.SemaphoreThreadTFidF;
@@ -30,6 +30,7 @@ public class SemaphoreTFidF extends TFidF {
 
 	@Override
 	public void readDocuments() {
+		System.out.println("Running Semaphore TFidF");
 		Stack<String> urls = new Stack<String>();
 		
 		try {
@@ -50,7 +51,7 @@ public class SemaphoreTFidF extends TFidF {
 		} 
 		
 		// Get Counter
-	    int numberOfThreads = 10;
+	    int numberOfThreads = 7;
 		SemaphoreStringController semaphore = new SemaphoreStringController(urls);
 		SemaphoreThreadReadDocuments threads[] = new SemaphoreThreadReadDocuments[numberOfThreads];
 		

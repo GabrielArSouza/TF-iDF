@@ -18,6 +18,7 @@ public class SequentialTFidF extends TFidF{
 	}
 
 	public void readDocuments() {
+		System.out.println("Running Sequential TFidF");
 		try {
 			
 			FileReader file = new FileReader(this.urlDocuments);

@@ -1,10 +1,10 @@
 package bigdata.techniques.tools.mutex;
 
-import java.util.concurrent.atomic.AtomicInteger;
+//import java.util.concurrent.atomic.AtomicInteger;
 
 public class MutexCounter {
 	
-	private volatile int count;
+	private int count;
 	private int limit;
 	
 	public MutexCounter (int limit) {

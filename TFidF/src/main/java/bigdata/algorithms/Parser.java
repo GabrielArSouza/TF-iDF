@@ -5,8 +5,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 
-import bigdata.common.StopWord;
-import bigdata.common.StopWordHolder;
+//import bigdata.common.StopWord;
+//import bigdata.common.StopWordHolder;
 
 
 public class Parser {

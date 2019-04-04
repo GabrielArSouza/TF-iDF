@@ -23,7 +23,7 @@ public class MutexTFidF extends TFidF {
 
 	@Override
 	public void readDocuments() {
-		
+		System.out.println("Runninf Mutex TFidF");
 		ArrayList<String> urls = new ArrayList<String>();
 		
 		try {
@@ -44,7 +44,7 @@ public class MutexTFidF extends TFidF {
 		}
 		
 		// Get Counter
-	    int numberOfThreads = 10;
+	    int numberOfThreads = 7;
 		MutexCounter count = new MutexCounter(urls.size()-1);
 		MutexThreadReadDocuments threads[] = new MutexThreadReadDocuments[numberOfThreads];
 		
@@ -60,8 +60,9 @@ public class MutexTFidF extends TFidF {
 			for (int i=0; i < numberOfThreads; i++)
 				if (threads[i].isAlive()) isAlive = true;
 		}
-		System.out.println(documents.keySet().size() + " documentos lidos");
+		//System.out.println(documents.keySet().size() + " documentos lidos");
 	}
+
 
 	@Override
 	public void constructTerms() {
