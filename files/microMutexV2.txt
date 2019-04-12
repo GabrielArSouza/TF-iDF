@@ -1,0 +1,10 @@
+Result "bigdata.TFidF.jmh.BenchTest.init":
+  26,401 ±(99.9%) 3,503 ms/op [Average]
+  (min, avg, max) = (24,242, 26,401, 42,629), stdev = 4,034
+  CI (99.9%): [22,899, 29,904] (assumes normal distribution)
+
+
+# Run complete. Total time: 00:00:52
+
+Benchmark                 Mode  Cnt   Score   Error  Units
+TFidF.jmh.BenchTest.init  avgt   20  26,401 ± 3,503  ms/op

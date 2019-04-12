@@ -23,7 +23,6 @@ public class MutexTFidF extends TFidF {
 
 	@Override
 	public void readDocuments() {
-		System.out.println("Runninf Mutex TFidF");
 		ArrayList<String> urls = new ArrayList<String>();
 		
 		try {
@@ -54,12 +53,11 @@ public class MutexTFidF extends TFidF {
 			threads[i].start();
 		}	
 		
-		for (int i=0; i<numberOfThreads; i++) {
-			try {
-				threads[i].join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+		boolean isAlive = true;
+		while ( isAlive ){
+			isAlive = false;
+			for (int i=0; i < numberOfThreads; i++)
+				if (threads[i].isAlive()) isAlive = true;
 		}
 		//System.out.println(documents.keySet().size() + " documentos lidos");
 	}
@@ -82,15 +80,17 @@ public class MutexTFidF extends TFidF {
 		
 		for (int i=0; i < numberOfThreads; i++) {
 			threads[i] = new MutexThreadConstructTerms(count, doc, this.terms);
-			threads[i].start();		
+			threads[i].start();
+//			try {threads[i].join();} 
+//			catch (InterruptedException e) {e.printStackTrace();}			
 		}
 		
-		for (int i=0; i<numberOfThreads; i++) {
-			try {
-				threads[i].join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+//		t1.start(); t2.start(); t3.start(); t4.start();
+		boolean isAlive = true;
+		while ( isAlive ){
+			isAlive = false;
+			for (int i=0; i < numberOfThreads; i++)
+				if (threads[i].isAlive()) isAlive = true;
 		}
 		
 //		System.out.println("Terms table built");
@@ -114,15 +114,15 @@ public class MutexTFidF extends TFidF {
 		for (int i=0; i < numberOfThreads; i++) {
 			threads[i] = new MutexThreadTermFrequency(count, doc, this.terms, this.termFrequency);
 			threads[i].start();
-		
+//			try {threads[i].join();} 
+//			catch (InterruptedException e) {e.printStackTrace();}			
 		}
-
-		for (int i=0; i<numberOfThreads; i++) {
-			try {
-				threads[i].join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+//		t1.start(); t2.start(); t3.start(); t4.start();
+		boolean isAlive = true;
+		while ( isAlive ){
+			isAlive = false;
+			for (int i=0; i < numberOfThreads; i++)
+				if (threads[i].isAlive()) isAlive = true;
 		}
 //		System.out.println("The term frequency table was built");
 		
@@ -147,13 +147,14 @@ public class MutexTFidF extends TFidF {
 			threads[i].start();
 		}
 		
-		for (int i=0; i<numberOfThreads; i++) {
-			try {
-				threads[i].join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+//		t1.start(); t2.start(); t3.start(); t4.start();
+		boolean isAlive = true;
+		while ( isAlive ){
+			isAlive = false;
+			for (int i=0; i < numberOfThreads; i++)
+				if (threads[i].isAlive()) isAlive = true;
 		}
+		
 //		System.out.println("The inverse distance table was built");
 	}
 
@@ -169,15 +170,17 @@ public class MutexTFidF extends TFidF {
 		for (int i=0; i < numberOfThreads; i++) {
 			threads[i] = new MutexThreadTFidF(count, this.documents,
 					this.terms, this.termFrequency, this.inverseDistance, this.tfIdf);
-			threads[i].start();		
+			threads[i].start();
+			try {threads[i].join();} 
+			catch (InterruptedException e) {e.printStackTrace();}			
 		}
 		
-		for (int i=0; i<numberOfThreads; i++) {
-			try {
-				threads[i].join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+//		t1.start(); t2.start(); t3.start(); t4.start();
+		boolean isAlive = true;
+		while ( isAlive ){
+			isAlive = false;
+			for (int i=0; i < numberOfThreads; i++)
+				if (threads[i].isAlive()) isAlive = true;
 		}
 		
 //		System.out.println("The TF-idF table was built");		
