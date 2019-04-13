@@ -1,8 +1,11 @@
 package bigdata.algorithms;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class TFidF {
@@ -111,5 +114,31 @@ public abstract class TFidF {
 	
 	public ConcurrentHashMap<String, Double> getTFidF(){
 		return this.tfIdf;
+	}
+	
+	protected ArrayList<String> readURLs (){
+		
+		ArrayList<String> urls = new ArrayList<String>();
+		try {
+			
+			FileReader file = new FileReader(this.urlDocuments);
+			BufferedReader readFile = new BufferedReader(file);
+			String line = readFile.readLine();
+
+			while (line != null) {
+				line.trim();
+				urls.add(line);
+				line = readFile.readLine();
+			}
+			file.close();
+		} catch (IOException e1) {
+			System.err.println("could not open file " + this.urlDocuments 
+					+ " " + e1.getMessage());
+		}
+		return urls;
+	}
+	
+	protected int getNumberOfCores () {
+		return Runtime.getRuntime().availableProcessors();
 	}
 }

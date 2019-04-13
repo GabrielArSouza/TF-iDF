@@ -23,25 +23,8 @@ public class MutexTFidF extends TFidF {
 
 	@Override
 	public void readDocuments() {
-		System.out.println("Runninf Mutex TFidF");
-		ArrayList<String> urls = new ArrayList<String>();
-		
-		try {
-			
-			FileReader file = new FileReader(this.urlDocuments);
-			BufferedReader readFile = new BufferedReader(file);
-			String line = readFile.readLine();
-
-			while (line != null) {
-				line.trim();
-				urls.add(line);
-				line = readFile.readLine();
-			}
-			file.close();
-		} catch (IOException e1) {
-			System.err.println("could not open file " + this.urlDocuments 
-					+ " " + e1.getMessage());
-		}
+		System.out.println("Running Mutex TFidF");
+		ArrayList<String> urls = this.readURLs();
 		
 		// Get Counter
 	    int numberOfThreads = 7;
@@ -77,7 +60,7 @@ public class MutexTFidF extends TFidF {
 		
 		// Get Counter
 		MutexCounter count = new MutexCounter(docs.size()-1);
-		int numberOfThreads = Runtime.getRuntime().availableProcessors();
+		int numberOfThreads = this.getNumberOfCores();
 		MutexThreadConstructTerms threads[] = new MutexThreadConstructTerms[numberOfThreads];
 		
 		for (int i=0; i < numberOfThreads; i++) {
@@ -108,7 +91,7 @@ public class MutexTFidF extends TFidF {
 		
 		// Get Counter
 		MutexCounter count = new MutexCounter(docs.size()-1);
-		int numberOfThreads = Runtime.getRuntime().availableProcessors();
+		int numberOfThreads = this.getNumberOfCores();
 		MutexThreadTermFrequency threads[] = new MutexThreadTermFrequency[numberOfThreads];
 		
 		for (int i=0; i < numberOfThreads; i++) {
@@ -139,7 +122,7 @@ public class MutexTFidF extends TFidF {
 			term.add(t);
 
 		MutexCounter mtxCounter = new MutexCounter(this.terms.size()-1);
-		int numberOfThreads = Runtime.getRuntime().availableProcessors();
+		int numberOfThreads = this.getNumberOfCores();
 		MutexThreadInverseDocument threads[] = new MutexThreadInverseDocument[numberOfThreads];
 		
 		for (int i=0; i < numberOfThreads; i++) {
@@ -163,7 +146,7 @@ public class MutexTFidF extends TFidF {
 		
 		// Get Counter
 		MutexCounter count = new MutexCounter(terms.size()-1);
-		int numberOfThreads = Runtime.getRuntime().availableProcessors();
+		int numberOfThreads = this.getNumberOfCores();
 		MutexThreadTFidF threads[] = new MutexThreadTFidF[numberOfThreads];
 		
 		for (int i=0; i < numberOfThreads; i++) {
