@@ -12,6 +12,7 @@ import org.openjdk.jmh.annotations.Warmup;
 
 //import bigdata.common.StopWord;
 import bigdata.common.StopWordHolder;
+import bigdata.techniques.ForkJoinTFidF;
 //import bigdata.techniques.HybridTFidF;
 import bigdata.techniques.MutexTFidF;
 //import bigdata.techniques.SemaphoreTFidF;
@@ -28,7 +29,7 @@ public class BenchTest {
 		String filename = "archive/forRead.txt";
 		
 		StopWordHolder.getStopWord();
-		MutexTFidF tf = new MutexTFidF(filename);
+		ForkJoinTFidF tf = new ForkJoinTFidF(filename);
 		tf.readDocuments();
 //		tf.constructTerms();
 //		tf.termFrequency();

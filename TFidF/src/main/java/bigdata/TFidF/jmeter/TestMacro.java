@@ -9,7 +9,9 @@ import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
 import org.apache.jmeter.samplers.SampleResult;
 
 import bigdata.common.StopWordHolder;
+import bigdata.techniques.ForkJoinTFidF;
 import bigdata.techniques.SemaphoreTFidF;
+import bigdata.techniques.tools.forkJoin.ForkJoinReader;
 
 
 public class TestMacro extends AbstractJavaSamplerClient implements Serializable {
@@ -29,7 +31,7 @@ public class TestMacro extends AbstractJavaSamplerClient implements Serializable
 		
 		String filename = "/home/gabriel/Códigos/java/TF-iDF/TFidF/archive/forRead.txt";
 		StopWordHolder.getStopWord();
-		SemaphoreTFidF tf = new SemaphoreTFidF(filename);
+		ForkJoinTFidF tf = new ForkJoinTFidF(filename);
 		tf.run();
 		
 		try {
