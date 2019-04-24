@@ -9,3 +9,11 @@ Tf-idf stands for term frequency-inverse document frequency, and the tf-idf weig
  - Modify the parameters to generate the links correctly. 
  - Open the code in a IDE Java as Maven project
  - Run the file App.java in path src/main/java/bigdata/TFidF as a JavaApplication
+
+# Concurrent Techniques
+
+## Mutex
+
+## Semaphore
+
+## Fork Join
