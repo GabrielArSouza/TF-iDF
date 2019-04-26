@@ -24,7 +24,7 @@ public class ParallelStreamConstructTerms {
 	{
 		StopWord sw = StopWordHolder.getStopWord();
 
-		// percorrer a lista de documentos
+		// scroll through the list of documents
 		documents.parallelStream()
 		         .forEach( d -> {
 		        	 Set<String> terms = d.getTableTermOccurrence().keySet();
