@@ -10,6 +10,7 @@ import org.apache.jmeter.samplers.SampleResult;
 
 import bigdata.common.StopWordHolder;
 import bigdata.techniques.ForkJoinTFidF;
+import bigdata.techniques.ParallelStreamTFidF;
 import bigdata.techniques.SemaphoreTFidF;
 import bigdata.techniques.tools.forkJoin.ForkJoinReader;
 
@@ -31,7 +32,7 @@ public class TestMacro extends AbstractJavaSamplerClient implements Serializable
 		
 		String filename = "/home/gabriel/Códigos/java/TF-iDF/TFidF/archive/forRead.txt";
 		StopWordHolder.getStopWord();
-		ForkJoinTFidF tf = new ForkJoinTFidF(filename);
+		ParallelStreamTFidF tf = new ParallelStreamTFidF(filename);
 		tf.run();
 		
 		try {

@@ -15,6 +15,8 @@ import bigdata.common.StopWordHolder;
 import bigdata.techniques.ForkJoinTFidF;
 //import bigdata.techniques.HybridTFidF;
 import bigdata.techniques.MutexTFidF;
+import bigdata.techniques.ParallelStreamTFidF;
+import bigdata.techniques.tools.parallelStream.ParallelStreamConstructTerms;
 //import bigdata.techniques.SemaphoreTFidF;
 //import bigdata.techniques.SequentialTFidF;
 
@@ -29,9 +31,9 @@ public class BenchTest {
 		String filename = "archive/forRead.txt";
 		
 		StopWordHolder.getStopWord();
-		ForkJoinTFidF tf = new ForkJoinTFidF(filename);
+		ParallelStreamTFidF tf = new ParallelStreamTFidF(filename);
 		tf.readDocuments();
-//		tf.constructTerms();
+		tf.constructTerms();
 //		tf.termFrequency();
 //		tf.inverseDistance();
 //		tf.tfidfTable();
