@@ -16,7 +16,7 @@ import bigdata.techniques.ExecutorTFidF;
 
 public class EReadDocumentsJMH {
 
-	@Benchmark
+	//@Benchmark
 	@BenchmarkMode(Mode.AverageTime)
 	@OutputTimeUnit(TimeUnit.MILLISECONDS)
 	@Fork(value = Parameters.FORK_VALUE, warmups = Parameters.FORK_WARMUPS)

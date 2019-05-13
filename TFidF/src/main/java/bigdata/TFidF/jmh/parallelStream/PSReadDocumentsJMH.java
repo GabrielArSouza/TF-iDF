@@ -16,7 +16,7 @@ import bigdata.techniques.ParallelStreamTFidF;
 
 public class PSReadDocumentsJMH {
 
-	@Benchmark
+//	@Benchmark
 	@BenchmarkMode(Mode.AverageTime)
 	@OutputTimeUnit(TimeUnit.MILLISECONDS)
 	@Fork(value = Parameters.FORK_VALUE, warmups = Parameters.FORK_WARMUPS)

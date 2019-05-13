@@ -1,4 +1,4 @@
-package bigdata.TFidF.jmh.parallelStream;
+package bigdata.TFidF.jmh.Callable;
 
 import java.util.concurrent.TimeUnit;
 
@@ -12,10 +12,11 @@ import org.openjdk.jmh.annotations.Warmup;
 
 import bigdata.TFidF.jmh.Parameters;
 import bigdata.common.StopWordHolder;
-import bigdata.techniques.ParallelStreamTFidF;
+import bigdata.techniques.CallableTFidF;
 
-public class PSTermFrequencyJMH {
-//	@Benchmark
+public class CReadDocumentsJMH {
+
+	@Benchmark
 	@BenchmarkMode(Mode.AverageTime)
 	@OutputTimeUnit(TimeUnit.MILLISECONDS)
 	@Fork(value = Parameters.FORK_VALUE, warmups = Parameters.FORK_WARMUPS)
@@ -26,9 +27,8 @@ public class PSTermFrequencyJMH {
 		String filename = "archive/forRead.txt";
 		
 		StopWordHolder.getStopWord();
-		ParallelStreamTFidF tf = new ParallelStreamTFidF(filename);
+		CallableTFidF tf = new CallableTFidF(filename);
 		tf.readDocuments();
-		tf.constructTerms();
-		tf.termFrequency();
 	}
+	
 }
