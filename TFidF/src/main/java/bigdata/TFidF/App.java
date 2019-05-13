@@ -9,6 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
 
+import bigdata.techniques.CallableTFidF;
 import bigdata.techniques.ExecutorTFidF;
 import bigdata.techniques.ForkJoinTFidF;
 import bigdata.techniques.HybridTFidF;
@@ -67,7 +68,7 @@ public class App
 		for (int i=0; i<numberTestes; i++) {
 			long startTime = System.nanoTime();
 				
-			ExecutorTFidF tf = new ExecutorTFidF(filename);
+			CallableTFidF tf = new CallableTFidF(filename);
 			tf.run();
 					
 			try {
