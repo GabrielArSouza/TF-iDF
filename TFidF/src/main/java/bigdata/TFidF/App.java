@@ -15,6 +15,7 @@ import bigdata.techniques.ForkJoinTFidF;
 import bigdata.techniques.HybridTFidF;
 import bigdata.techniques.MutexTFidF;
 import bigdata.techniques.ParallelStreamTFidF;
+import bigdata.techniques.ReactiveTFidF;
 //import bigdata.techniques.SemaphoreTFidF;
 //import bigdata.techniques.SequentialTFidF;
 //import bigdata.algorithms.Document;
@@ -68,7 +69,7 @@ public class App
 		for (int i=0; i<numberTestes; i++) {
 			long startTime = System.nanoTime();
 				
-			CallableTFidF tf = new CallableTFidF(filename);
+			ReactiveTFidF tf = new ReactiveTFidF(filename);
 			tf.run();
 					
 			try {
