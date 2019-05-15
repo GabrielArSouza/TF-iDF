@@ -15,6 +15,7 @@ import bigdata.techniques.ForkJoinTFidF;
 import bigdata.techniques.HybridTFidF;
 import bigdata.techniques.MutexTFidF;
 import bigdata.techniques.ParallelStreamTFidF;
+import bigdata.techniques.ReactiveTFidF;
 //import bigdata.techniques.SemaphoreTFidF;
 //import bigdata.techniques.SequentialTFidF;
 //import bigdata.algorithms.Document;

@@ -1,4 +1,4 @@
-package bigdata.techniques.tools.mutex;
+package bigdata.techniques.tools.executor;
 
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
@@ -6,24 +6,25 @@ import java.util.concurrent.ConcurrentHashMap;
 import bigdata.algorithms.Document;
 import bigdata.common.StopWord;
 import bigdata.common.StopWordHolder;
+import bigdata.techniques.tools.mutex.MutexCounter;
 
-public class MutexThreadConstructTerms extends Thread {
+public class ExecutorConstructTerms implements Runnable  {
 
 	private final MutexCounter mtxCounter;
 	private final ArrayList<Document> docs;
 	private ConcurrentHashMap<String, Integer> terms;
 	
-	public MutexThreadConstructTerms 
-	( MutexCounter mtxCounter, ArrayList<Document> docs,
-      ConcurrentHashMap<String, Integer> terms)
+	public ExecutorConstructTerms(MutexCounter mtxCounter,
+			ArrayList<Document> docs,
+			ConcurrentHashMap<String, Integer> terms)
 	{
 		this.mtxCounter = mtxCounter;
 		this.docs = docs;
 		this.terms = terms;
 	}
-	
-	public void run () {
-//		System.out.println("Terms: A thread " + this.getId() + " foi iniciada");
+
+	@Override
+	public void run() {
 		Integer pos = null;
 		StopWord sw = StopWordHolder.getStopWord();
 		Document docAux;
@@ -36,6 +37,7 @@ public class MutexThreadConstructTerms extends Thread {
 				}else docAux.incrementStopWords(docAux.numberOfOccurrencesTerm(s));
 			}
 		}
+		
 	}
-	
+
 }

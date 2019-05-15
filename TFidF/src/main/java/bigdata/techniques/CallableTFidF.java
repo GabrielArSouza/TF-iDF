@@ -3,20 +3,20 @@ package bigdata.techniques;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 import bigdata.algorithms.Document;
 import bigdata.algorithms.TFidF;
+import bigdata.techniques.tools.callable.CallableConstructTerms;
+import bigdata.techniques.tools.callable.CallableInverseDistance;
 import bigdata.techniques.tools.callable.CallableReadDocuments;
+import bigdata.techniques.tools.callable.CallableTFidFTable;
+import bigdata.techniques.tools.callable.CallableTermFrequency;
 import bigdata.techniques.tools.mutex.MutexCounter;
-import bigdata.techniques.tools.mutex.MutexThreadConstructTerms;
-import bigdata.techniques.tools.mutex.MutexThreadInverseDocument;
-import bigdata.techniques.tools.mutex.MutexThreadTFidF;
-import bigdata.techniques.tools.mutex.MutexThreadTermFrequency;
 
 public class CallableTFidF extends TFidF {
 
@@ -39,99 +39,123 @@ public class CallableTFidF extends TFidF {
 		}
 		
 		exec.shutdown();
-		
-		for (Future<Map<Document, Integer>> f : resultList) {
-			try {
-				this.documents.putAll( f.get());
-			} catch (InterruptedException | ExecutionException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		try {
+			exec.awaitTermination(1, TimeUnit.HOURS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
+		
+		resultList.stream()
+				  .forEach(f -> {
+					  try { this.documents.putAll( f.get());}
+					  catch (InterruptedException | ExecutionException e) 
+					  {	 e.printStackTrace(); }
+				  });
 
 	}
 
 	@Override
 	public void constructTerms() {
 		
-		Set<Document> docs = documents.keySet();
-		ArrayList<Document> doc = new ArrayList<Document>();
-		for (Document d : docs)
-			doc.add(d);
+		ArrayList<Document> docs = new ArrayList<Document>();
+		docs.addAll(documents.keySet());
 		
 		// Get Counter
 		MutexCounter count = new MutexCounter(docs.size()-1);
 		int numberOfThreads = this.getNumberOfCores();
-		MutexThreadConstructTerms threads[] = new MutexThreadConstructTerms[numberOfThreads];
+		ExecutorService exec = Executors.newFixedThreadPool(numberOfThreads);
+
+		List<Future<Map<String, Integer>>> resultList = new ArrayList<>();
 		
-		for (int i=0; i < numberOfThreads; i++) {
-			threads[i] = new MutexThreadConstructTerms(count, doc, this.terms);
-			threads[i].start();		
+		for (int i = 0; i < numberOfThreads; i++) {
+			CallableConstructTerms c = new CallableConstructTerms(count, docs);
+			Future<Map<String,Integer>> result = exec.submit(c);
+			resultList.add(result);
 		}
 		
-		for (int i=0; i<numberOfThreads; i++) {
-			try {
-				threads[i].join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+		exec.shutdown();
+		try {
+			exec.awaitTermination(1, TimeUnit.HOURS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
+		
+		resultList.stream()
+		  .forEach(f -> {
+			  try { this.terms.putAll( f.get());}
+			  catch (InterruptedException | ExecutionException e) 
+			  {	 e.printStackTrace(); }
+		  });
 	}
 
 	@Override
 	public void termFrequency() {
 		
 		// Get document list
-				Set<Document> docs = documents.keySet();
-				ArrayList<Document> doc = new ArrayList<Document>();
-				for (Document d : docs)
-					doc.add(d);
+		ArrayList<Document> docs = new ArrayList<Document>();
+		docs.addAll(documents.keySet());
 				
-				// Get Counter
-				MutexCounter count = new MutexCounter(docs.size()-1);
-				int numberOfThreads = this.getNumberOfCores();
-				MutexThreadTermFrequency threads[] = new MutexThreadTermFrequency[numberOfThreads];
-				
-				for (int i=0; i < numberOfThreads; i++) {
-					threads[i] = new MutexThreadTermFrequency(count, doc, this.terms, this.termFrequency);
-					threads[i].start();
-				
-				}
-
-				for (int i=0; i<numberOfThreads; i++) {
-					try {
-						threads[i].join();
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
+		// Get Counter
+		MutexCounter count = new MutexCounter(docs.size()-1);
+		int numberOfThreads = this.getNumberOfCores();
+		ExecutorService exec = Executors.newFixedThreadPool(numberOfThreads);
 		
+		List<Future<Map<String, Double>>> resultList = new ArrayList<>();
+
+		for (int i = 0; i < numberOfThreads; i++) {
+			CallableTermFrequency c = new CallableTermFrequency(count, docs, terms);
+			Future<Map<String,Double>> result = exec.submit(c);
+			resultList.add(result);
+		}
+		
+		exec.shutdown();
+		
+		try {
+			exec.awaitTermination(1, TimeUnit.HOURS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		resultList.stream()
+		  .forEach(f -> {
+			  try { this.termFrequency.putAll( f.get());}
+			  catch (InterruptedException | ExecutionException e) 
+			  {	 e.printStackTrace(); }
+		  });
 	}
 
 	@Override
 	public void inverseDistance() {
-		Set<String> Setterms = this.terms.keySet();
-		ArrayList<String> term = new ArrayList<String>();
-		for (String t : Setterms)
-			term.add(t);
+		
+		ArrayList<String> terms = new ArrayList<String>();
+		terms.addAll(this.terms.keySet());
 
 		MutexCounter mtxCounter = new MutexCounter(this.terms.size()-1);
 		int numberOfThreads = this.getNumberOfCores();
-		MutexThreadInverseDocument threads[] = new MutexThreadInverseDocument[numberOfThreads];
+		ExecutorService exec = Executors.newFixedThreadPool(numberOfThreads);
 		
-		for (int i=0; i < numberOfThreads; i++) {
-			threads[i] = new MutexThreadInverseDocument(mtxCounter, term, this.documents, this.inverseDistance);
-			threads[i].start();
+		List<Future<Map<String, Double>>> resultList = new ArrayList<>();
+
+		for (int i = 0; i < numberOfThreads; i++) {
+			CallableInverseDistance c = new CallableInverseDistance(mtxCounter, terms, documents);
+			Future<Map<String,Double>> result = exec.submit(c);
+			resultList.add(result);
 		}
 		
-		for (int i=0; i<numberOfThreads; i++) {
-			try {
-				threads[i].join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
+		exec.shutdown();
 		
+		try {
+			exec.awaitTermination(1, TimeUnit.HOURS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		resultList.stream()
+		  .forEach(f -> {
+			  try { this.inverseDistance.putAll( f.get());}
+			  catch (InterruptedException | ExecutionException e) 
+			  {	 e.printStackTrace(); }
+		  });
 	}
 
 	@Override
@@ -139,22 +163,31 @@ public class CallableTFidF extends TFidF {
 		
 		MutexCounter count = new MutexCounter(terms.size()-1);
 		int numberOfThreads = this.getNumberOfCores();
-		MutexThreadTFidF threads[] = new MutexThreadTFidF[numberOfThreads];
+		ExecutorService exec = Executors.newFixedThreadPool(numberOfThreads);
 		
-		for (int i=0; i < numberOfThreads; i++) {
-			threads[i] = new MutexThreadTFidF(count, this.documents,
-					this.terms, this.termFrequency, this.inverseDistance, this.tfIdf);
-			threads[i].start();		
+		List<Future<Map<String, Double>>> resultList = new ArrayList<>();
+		
+		for (int i = 0; i < numberOfThreads; i++) {
+			CallableTFidFTable c = new CallableTFidFTable(count, documents, 
+					terms, termFrequency, inverseDistance);
+			Future<Map<String,Double>> result = exec.submit(c);
+			resultList.add(result);
 		}
 		
-		for (int i=0; i<numberOfThreads; i++) {
-			try {
-				threads[i].join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
+		exec.shutdown();
 		
+		try {
+			exec.awaitTermination(1, TimeUnit.HOURS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		resultList.stream()
+		  .forEach(f -> {
+			  try { this.tfIdf.putAll( f.get());}
+			  catch (InterruptedException | ExecutionException e) 
+			  {	 e.printStackTrace(); }
+		  });
 	}
 	
 }

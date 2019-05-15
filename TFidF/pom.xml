@@ -33,6 +33,31 @@
 	<version>5.1</version>
 	</dependency>
 		
+		<dependency>
+		  <groupId>org.reactivestreams</groupId>
+		  <artifactId>reactive-streams</artifactId>
+		  <version>1.0.2</version>
+		</dependency>
+		<dependency>
+		  <groupId>org.reactivestreams</groupId>
+		  <artifactId>reactive-streams-tck</artifactId>
+		  <version>1.0.2</version>
+		</dependency>
+		<dependency>
+		  <groupId>org.reactivestreams</groupId>
+		  <artifactId>reactive-streams-flow-adapters</artifactId>
+		  <version>1.0.2</version>
+		</dependency>
+		<dependency>
+		  <groupId>org.reactivestreams</groupId>
+		  <artifactId>reactive-streams-tck-flow</artifactId>
+		  <version>1.0.2</version>
+		</dependency>
+		<dependency>
+		  <groupId>org.reactivestreams</groupId>
+		  <artifactId>reactive-streams-examples</artifactId>
+		  <version>1.0.2</version>
+		</dependency>
 	
   </dependencies>
   
