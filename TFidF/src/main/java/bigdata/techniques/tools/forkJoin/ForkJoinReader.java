@@ -10,7 +10,7 @@ public class ForkJoinReader extends RecursiveAction {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final int SEQUENTIAL_THRESHOLD = 5;
+	private static final int SEQUENTIAL_THRESHOLD = 1;
 	private List<String> data;
 	private ConcurrentHashMap<Document, Integer> documents;
 	
@@ -26,7 +26,7 @@ public class ForkJoinReader extends RecursiveAction {
 	
 		if (data.size() <= SEQUENTIAL_THRESHOLD) {
 			
-			computeDirect(data);
+			computeDirect(data.get(0));
 //			System.out.println("read documents in subtask");
 		
 		}else {
@@ -44,10 +44,8 @@ public class ForkJoinReader extends RecursiveAction {
 			
 	}
 	
-	private void computeDirect(List<String> data) {
-		for (String s : data) {
-			this.documents.put(new Document(s), 1);
-		}
+	private void computeDirect(String data) {
+		this.documents.put(new Document(data), 1);
 	}
 
 }

@@ -2,7 +2,6 @@ package bigdata.techniques;
 
 import java.util.ArrayList;
 import java.util.Set;
-import java.util.concurrent.Flow.Subscriber;
 import java.util.concurrent.SubmissionPublisher;
 
 import bigdata.algorithms.Document;
@@ -24,13 +23,14 @@ public class ReactiveTFidF extends TFidF{
 	public void readDocuments() {
 		ArrayList<String> urls = this.readURLs();
 		SubmissionPublisher<String> publisher = new SubmissionPublisher<>();
-		publisher.subscribe(new Consumer());
+		publisher.subscribe( new Consumer(this.documents) );
 		
 		System.out.println("Submitting urls...");
 
-        for (int i = 0; i < urls.size(); i++)
-            publisher.submit(urls.get(i));
+		urls.stream().forEach(url -> publisher.submit(url));
  
+        publisher.close();
+        
         try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
@@ -38,7 +38,7 @@ public class ReactiveTFidF extends TFidF{
 			e.printStackTrace();
 		}
 
-        publisher.close();
+    
 	}
 
 	@Override// TODO Auto-generated method stub

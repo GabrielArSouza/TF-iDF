@@ -6,7 +6,11 @@ import java.util.concurrent.ForkJoinPool;
 
 import bigdata.algorithms.Document;
 import bigdata.algorithms.TFidF;
+import bigdata.techniques.tools.forkJoin.ForkJoinConstructTerms;
+import bigdata.techniques.tools.forkJoin.ForkJoinInverseDocument;
 import bigdata.techniques.tools.forkJoin.ForkJoinReader;
+import bigdata.techniques.tools.forkJoin.ForkJoinTFidFTable;
+import bigdata.techniques.tools.forkJoin.ForkJoinTermFrequency;
 import bigdata.techniques.tools.mutex.MutexCounter;
 import bigdata.techniques.tools.mutex.MutexThreadConstructTerms;
 import bigdata.techniques.tools.mutex.MutexThreadInverseDocument;
@@ -33,109 +37,50 @@ public class ForkJoinTFidF extends TFidF{
 	@Override
 	public void constructTerms() {
 		// Get document list
-		Set<Document> docs = documents.keySet();
-		ArrayList<Document> doc = new ArrayList<Document>();
-		for (Document d : docs)
-			doc.add(d);
+		ArrayList<Document> docs = new ArrayList<>();
+		docs.addAll(documents.keySet());
 		
-		// Get Counter
-		MutexCounter count = new MutexCounter(docs.size()-1);
-		int numberOfThreads = this.getNumberOfCores();
-		MutexThreadConstructTerms threads[] = new MutexThreadConstructTerms[numberOfThreads];
-		
-		for (int i=0; i < numberOfThreads; i++) {
-			threads[i] = new MutexThreadConstructTerms(count, doc, this.terms);
-			threads[i].start();		
-		}
-		
-		for (int i=0; i<numberOfThreads; i++) {
-			try {
-				threads[i].join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-				
+		ForkJoinPool pool = new ForkJoinPool();
+		ForkJoinConstructTerms task = new ForkJoinConstructTerms(docs, terms);
+		pool.invoke(task);
 		
 	}
 
 	@Override
 	public void termFrequency() {
 		// Get document list
-		Set<Document> docs = documents.keySet();
-		ArrayList<Document> doc = new ArrayList<Document>();
-		for (Document d : docs)
-			doc.add(d);
+		ArrayList<Document> docs = new ArrayList<>();
+		docs.addAll(documents.keySet());
 		
-		// Get Counter
-		MutexCounter count = new MutexCounter(docs.size()-1);
-		int numberOfThreads = this.getNumberOfCores();
-		MutexThreadTermFrequency threads[] = new MutexThreadTermFrequency[numberOfThreads];
-		
-		for (int i=0; i < numberOfThreads; i++) {
-			threads[i] = new MutexThreadTermFrequency(count, doc, this.terms, this.termFrequency);
-			threads[i].start();
-		
-		}
-
-		for (int i=0; i<numberOfThreads; i++) {
-			try {
-				threads[i].join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		
+		ForkJoinPool pool = new ForkJoinPool();
+		ForkJoinTermFrequency task = new ForkJoinTermFrequency(docs, terms, termFrequency);
+		pool.invoke(task);
+	
 	}
 
 	@Override
 	public void inverseDistance() {
-		// Get document list
-		Set<String> Setterms = this.terms.keySet();
-		ArrayList<String> term = new ArrayList<String>();
-		for (String t : Setterms)
-			term.add(t);
-
-		MutexCounter mtxCounter = new MutexCounter(this.terms.size()-1);
-		int numberOfThreads = this.getNumberOfCores();
-		MutexThreadInverseDocument threads[] = new MutexThreadInverseDocument[numberOfThreads];
+		// Get terms list
+		ArrayList<String> setTerms = new ArrayList<>();
+		setTerms.addAll(this.terms.keySet());
 		
-		for (int i=0; i < numberOfThreads; i++) {
-			threads[i] = new MutexThreadInverseDocument(mtxCounter, term, this.documents, this.inverseDistance);
-			threads[i].start();
-		}
-		
-		for (int i=0; i<numberOfThreads; i++) {
-			try {
-				threads[i].join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		
+		ForkJoinPool pool = new ForkJoinPool();
+		ForkJoinInverseDocument task = 
+				new ForkJoinInverseDocument(setTerms, this.documents.keySet(), this.inverseDistance);
+		pool.invoke(task);
 	}
 
 	@Override
 	public void tfidfTable() {
-		// Get Counter
-		MutexCounter count = new MutexCounter(terms.size()-1);
-		int numberOfThreads = this.getNumberOfCores();
-		MutexThreadTFidF threads[] = new MutexThreadTFidF[numberOfThreads];
+		// Get terms list
+		ArrayList<String> setTerms = new ArrayList<>();
+		setTerms.addAll(this.terms.keySet());
 		
-		for (int i=0; i < numberOfThreads; i++) {
-			threads[i] = new MutexThreadTFidF(count, this.documents,
-					this.terms, this.termFrequency, this.inverseDistance, this.tfIdf);
-			threads[i].start();		
-		}
-		
-		for (int i=0; i<numberOfThreads; i++) {
-			try {
-				threads[i].join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		
+		ForkJoinPool pool = new ForkJoinPool();
+		ForkJoinTFidFTable task =
+				new ForkJoinTFidFTable(documents.keySet(), setTerms,
+						termFrequency, inverseDistance, tfIdf);
+		pool.invoke(task);
 	}
 
 }

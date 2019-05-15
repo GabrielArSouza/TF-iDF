@@ -69,7 +69,7 @@ public class App
 		for (int i=0; i<numberTestes; i++) {
 			long startTime = System.nanoTime();
 				
-			ReactiveTFidF tf = new ReactiveTFidF(filename);
+			CallableTFidF tf = new CallableTFidF(filename);
 			tf.run();
 					
 			try {
