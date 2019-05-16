@@ -31,7 +31,7 @@ public class ParallelStreamTFidFTable {
 
 		terms.parallelStream()
 			 .forEach( s -> {
-				 documents.parallelStream()
+				 documents.stream()
 				 	.forEach( d -> {
 				 		StringBuffer keyValue = new StringBuffer("");
 						keyValue.append(s);

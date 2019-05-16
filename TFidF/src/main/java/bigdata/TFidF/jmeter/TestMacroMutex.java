@@ -3,36 +3,26 @@ package bigdata.TFidF.jmeter;
 import java.io.IOException;
 import java.io.Serializable;
 
-
 import org.apache.jmeter.protocol.java.sampler.AbstractJavaSamplerClient;
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
 import org.apache.jmeter.samplers.SampleResult;
 
 import bigdata.common.StopWordHolder;
-import bigdata.techniques.ForkJoinTFidF;
-import bigdata.techniques.ParallelStreamTFidF;
-import bigdata.techniques.SemaphoreTFidF;
-import bigdata.techniques.tools.forkJoin.ForkJoinReader;
+import bigdata.techniques.MutexTFidF;
 
+public class TestMacroMutex extends AbstractJavaSamplerClient implements Serializable{
 
-public class TestMacro extends AbstractJavaSamplerClient implements Serializable {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-
 
 	@Override
 	public SampleResult runTest(JavaSamplerContext context) {
-		
 		SampleResult result = new SampleResult();
 		result.sampleStart();
 		result.setSampleLabel("Test Sample");
 		
 		String filename = "/home/gabriel/Códigos/java/TF-iDF/TFidF/archive/forRead.txt";
 		StopWordHolder.getStopWord();
-		ParallelStreamTFidF tf = new ParallelStreamTFidF(filename);
+		MutexTFidF tf = new MutexTFidF(filename);
 		tf.run();
 		
 		try {
@@ -48,4 +38,6 @@ public class TestMacro extends AbstractJavaSamplerClient implements Serializable
 		
 		return result;
 	}
+
+
 }

@@ -6,12 +6,12 @@ import java.util.concurrent.Flow.Subscription;
 
 import bigdata.algorithms.Document;
 
-public class Consumer implements Flow.Subscriber<String> {
+public class ConsumerUrls implements Flow.Subscriber<String> {
 
 	private Subscription subscription;
 	private ConcurrentHashMap<Document, Integer> documents;
 	
-	public Consumer (ConcurrentHashMap<Document, Integer> documents)
+	public ConsumerUrls (ConcurrentHashMap<Document, Integer> documents)
 	{ this.documents = documents; }
 	
 	@Override
@@ -23,8 +23,9 @@ public class Consumer implements Flow.Subscriber<String> {
 	@Override
 	public void onNext(String url) {
         //System.out.println("Received url: " + url);
-        documents.put(new Document(url), 1);
+		processUrl(url);
 		subscription.request(1);
+		
 	}
 
 	@Override
@@ -37,4 +38,8 @@ public class Consumer implements Flow.Subscriber<String> {
 		System.out.println("PrintSubscriber is complete");
 	}
 
+	private void processUrl (String url) {
+		documents.put(new Document(url), 1);
+	}
+	
 }

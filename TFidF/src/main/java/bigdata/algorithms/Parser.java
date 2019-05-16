@@ -64,7 +64,7 @@ public class Parser {
 		        			this.numberOfProcessedTerms++;
 		        			if (terms.containsKey(s))
 				        		terms.replace(s, terms.get(s)+1);
-				        	else { terms.put(s, new Integer(1));}
+				        	else { terms.put(s, 1);}
 		        		}
 		        	}
 		        }

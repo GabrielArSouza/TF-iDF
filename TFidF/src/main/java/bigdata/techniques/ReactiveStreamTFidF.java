@@ -3,6 +3,7 @@ package bigdata.techniques;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.concurrent.SubmissionPublisher;
+import java.util.concurrent.TimeUnit;
 
 import bigdata.algorithms.Document;
 import bigdata.algorithms.TFidF;
@@ -10,35 +11,40 @@ import bigdata.techniques.tools.mutex.MutexCounter;
 import bigdata.techniques.tools.mutex.MutexThreadConstructTerms;
 import bigdata.techniques.tools.mutex.MutexThreadInverseDocument;
 import bigdata.techniques.tools.mutex.MutexThreadTFidF;
-import bigdata.techniques.tools.mutex.MutexThreadTermFrequency;
-import bigdata.techniques.tools.reactiveStream.Consumer;
+import bigdata.techniques.tools.reactiveStream.ConsumeTermFrequency;
+import bigdata.techniques.tools.reactiveStream.ConsumerUrls;
+import bigdata.techniques.tools.reactiveStream.ProducerDocuments;
+import bigdata.techniques.tools.reactiveStream.ProducerUrls;
 
-public class ReactiveTFidF extends TFidF{
+public class ReactiveStreamTFidF extends TFidF{
 
-	public ReactiveTFidF(String url) {
+	public ReactiveStreamTFidF(String url) {
 		super(url);
 	}
 
 	@Override
 	public void readDocuments() {
 		ArrayList<String> urls = this.readURLs();
-		SubmissionPublisher<String> publisher = new SubmissionPublisher<>();
-		publisher.subscribe( new Consumer(this.documents) );
+		MutexCounter count = new MutexCounter(urls.size()-1);
 		
-		System.out.println("Submitting urls...");
-
-		urls.stream().forEach(url -> publisher.submit(url));
- 
-        publisher.close();
-        
-        try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		SubmissionPublisher<String> publisher = new SubmissionPublisher<>();
+		for (int i=0; i < 2; i++){
+			ConsumerUrls consumer = new ConsumerUrls(this.documents);
+			publisher.subscribe(consumer);
 		}
-
-    
+		
+		for (int i=0; i < 2; i++){
+			ProducerUrls system = new ProducerUrls(publisher, count, urls);
+			new Thread(system).start();
+		}
+		
+		do {
+			
+			try { TimeUnit.MILLISECONDS.sleep(1); }
+			catch (InterruptedException e) { e.printStackTrace(); } 
+		
+		}while ((publisher.estimateMaximumLag() > 0));
+		
 	}
 
 	@Override// TODO Auto-generated method stub
@@ -71,31 +77,28 @@ public class ReactiveTFidF extends TFidF{
 	@Override
 	public void termFrequency() {
 		
-		// Get document list
-				Set<Document> docs = documents.keySet();
-				ArrayList<Document> doc = new ArrayList<Document>();
-				for (Document d : docs)
-					doc.add(d);
-				
-				// Get Counter
-				MutexCounter count = new MutexCounter(docs.size()-1);
-				int numberOfThreads = this.getNumberOfCores();
-				MutexThreadTermFrequency threads[] = new MutexThreadTermFrequency[numberOfThreads];
-				
-				for (int i=0; i < numberOfThreads; i++) {
-					threads[i] = new MutexThreadTermFrequency(count, doc, this.terms, this.termFrequency);
-					threads[i].start();
-				
-				}
-
-				for (int i=0; i<numberOfThreads; i++) {
-					try {
-						threads[i].join();
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
+		ArrayList<Document> docs = new ArrayList<>();
+		docs.addAll(documents.keySet());
 		
+		MutexCounter mtx = new MutexCounter(docs.size()-1);
+		int numberOfThreads = this.getNumberOfCores();
+		
+		SubmissionPublisher<Document> publisher = new SubmissionPublisher<>();
+		for (int i=0; i < numberOfThreads; i++){
+			ConsumeTermFrequency consumer = new ConsumeTermFrequency(terms, termFrequency);
+			publisher.subscribe(consumer);
+		}
+		
+		ProducerDocuments system = new ProducerDocuments(publisher, mtx, docs);
+		Thread t = new Thread(system);
+		t.start();
+			
+		do {
+			
+			try { TimeUnit.MILLISECONDS.sleep(1); }
+			catch (InterruptedException e) { e.printStackTrace(); } 
+		
+		}while ((publisher.estimateMaximumLag() > 0));
 	}
 
 	@Override

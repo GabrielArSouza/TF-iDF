@@ -14,7 +14,8 @@ import bigdata.TFidF.jmh.Parameters;
 import bigdata.common.StopWordHolder;
 import bigdata.techniques.ParallelStreamTFidF;
 
-public class PSTermFrequencyJMH {
+public class CPSTermFrequencyJMH {
+
 //	@Benchmark
 	@BenchmarkMode(Mode.AverageTime)
 	@OutputTimeUnit(TimeUnit.MILLISECONDS)

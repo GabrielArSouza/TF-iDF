@@ -28,7 +28,7 @@ public class ParallelStreamTermFrequency {
 		documents.parallelStream()
 			 .forEach(d -> {
 				 // go through all terms
-				 termsOfTable.parallelStream()
+				 termsOfTable.stream()
 				 	.forEach(s -> {	
 				 		StringBuffer keyValue = new StringBuffer("");
 				 		// generate key

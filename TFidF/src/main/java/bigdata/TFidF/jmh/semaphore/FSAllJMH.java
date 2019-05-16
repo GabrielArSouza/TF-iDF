@@ -1,5 +1,6 @@
-package bigdata.TFidF.jmh.reactivestream;
+package bigdata.TFidF.jmh.semaphore;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import org.openjdk.jmh.annotations.Benchmark;
@@ -12,11 +13,11 @@ import org.openjdk.jmh.annotations.Warmup;
 
 import bigdata.TFidF.jmh.Parameters;
 import bigdata.common.StopWordHolder;
-import bigdata.techniques.ReactiveStreamTFidF;
+import bigdata.techniques.SemaphoreTFidF;
 
-public class RReadDocumentsJMH {
+public class FSAllJMH {
 
-	@Benchmark
+	//@Benchmark
 	@BenchmarkMode(Mode.AverageTime)
 	@OutputTimeUnit(TimeUnit.MILLISECONDS)
 	@Fork(value = Parameters.FORK_VALUE, warmups = Parameters.FORK_WARMUPS)
@@ -27,8 +28,19 @@ public class RReadDocumentsJMH {
 		String filename = "archive/forRead.txt";
 		
 		StopWordHolder.getStopWord();
-		ReactiveStreamTFidF tf = new ReactiveStreamTFidF(filename);
+		SemaphoreTFidF tf = new SemaphoreTFidF(filename);
 		tf.readDocuments();
+		tf.constructTerms();
+		tf.termFrequency();
+		tf.inverseDistance();
+		tf.tfidfTable();
+		
+		try {
+			tf.printTables();
+		}catch(IOException e) {
+			System.err.println("Something went wrong " + e.getMessage());
+		}
+	
 	}
 	
 }

@@ -1,4 +1,4 @@
-package bigdata.TFidF.jmh.forkjoin;
+package bigdata.TFidF.jmh.semaphore;
 
 import java.util.concurrent.TimeUnit;
 
@@ -12,11 +12,11 @@ import org.openjdk.jmh.annotations.Warmup;
 
 import bigdata.TFidF.jmh.Parameters;
 import bigdata.common.StopWordHolder;
-import bigdata.techniques.ForkJoinTFidF;
+import bigdata.techniques.SemaphoreTFidF;
 
-public class FJReadDocumentsJMH {
+public class ASReadDocumentsJMH {
 
-	@Benchmark
+	//@Benchmark
 	@BenchmarkMode(Mode.AverageTime)
 	@OutputTimeUnit(TimeUnit.MILLISECONDS)
 	@Fork(value = Parameters.FORK_VALUE, warmups = Parameters.FORK_WARMUPS)
@@ -27,9 +27,10 @@ public class FJReadDocumentsJMH {
 		String filename = "archive/forRead.txt";
 		
 		StopWordHolder.getStopWord();
-		ForkJoinTFidF tf = new ForkJoinTFidF(filename);
+		SemaphoreTFidF tf = new SemaphoreTFidF(filename);
 		tf.readDocuments();
 		
 	}
+	
 	
 }

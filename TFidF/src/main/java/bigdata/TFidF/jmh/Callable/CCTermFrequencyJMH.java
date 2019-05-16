@@ -14,9 +14,9 @@ import bigdata.TFidF.jmh.Parameters;
 import bigdata.common.StopWordHolder;
 import bigdata.techniques.CallableTFidF;
 
-public class CReadDocumentsJMH {
+public class CCTermFrequencyJMH {
 
-	//@Benchmark
+//	@Benchmark
 	@BenchmarkMode(Mode.AverageTime)
 	@OutputTimeUnit(TimeUnit.MILLISECONDS)
 	@Fork(value = Parameters.FORK_VALUE, warmups = Parameters.FORK_WARMUPS)
@@ -29,6 +29,8 @@ public class CReadDocumentsJMH {
 		StopWordHolder.getStopWord();
 		CallableTFidF tf = new CallableTFidF(filename);
 		tf.readDocuments();
+		tf.constructTerms();
+		tf.termFrequency();
 	}
 	
 }

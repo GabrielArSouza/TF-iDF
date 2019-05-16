@@ -1,4 +1,4 @@
-package bigdata.TFidF.jmh.parallelStream;
+package bigdata.TFidF.jmh.mutex;
 
 import java.util.concurrent.TimeUnit;
 
@@ -12,9 +12,9 @@ import org.openjdk.jmh.annotations.Warmup;
 
 import bigdata.TFidF.jmh.Parameters;
 import bigdata.common.StopWordHolder;
-import bigdata.techniques.ParallelStreamTFidF;
+import bigdata.techniques.MutexTFidF;
 
-public class PSReadDocumentsJMH {
+public class DMInverseDistanceJMH {
 
 //	@Benchmark
 	@BenchmarkMode(Mode.AverageTime)
@@ -27,8 +27,12 @@ public class PSReadDocumentsJMH {
 		String filename = "archive/forRead.txt";
 		
 		StopWordHolder.getStopWord();
-		ParallelStreamTFidF tf = new ParallelStreamTFidF(filename);
+		MutexTFidF tf = new MutexTFidF(filename);
 		tf.readDocuments();
+		tf.constructTerms();
+		tf.termFrequency();
+		tf.inverseDistance();
+		
 		
 	}
 	

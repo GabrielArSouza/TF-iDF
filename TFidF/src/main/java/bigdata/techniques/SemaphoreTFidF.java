@@ -30,7 +30,6 @@ public class SemaphoreTFidF extends TFidF {
 
 	@Override
 	public void readDocuments() {
-		System.out.println("Running Semaphore TFidF");
 		Stack<String> urls = new Stack<String>();
 		
 		try {

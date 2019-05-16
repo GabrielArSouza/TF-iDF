@@ -1,8 +1,5 @@
 package bigdata.techniques;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -23,7 +20,6 @@ public class MutexTFidF extends TFidF {
 
 	@Override
 	public void readDocuments() {
-		System.out.println("Running Mutex TFidF");
 		ArrayList<String> urls = this.readURLs();
 		
 		// Get Counter

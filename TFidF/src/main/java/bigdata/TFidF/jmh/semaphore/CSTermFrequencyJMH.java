@@ -1,4 +1,4 @@
-package bigdata.TFidF.jmh.executor;
+package bigdata.TFidF.jmh.semaphore;
 
 import java.util.concurrent.TimeUnit;
 
@@ -12,9 +12,9 @@ import org.openjdk.jmh.annotations.Warmup;
 
 import bigdata.TFidF.jmh.Parameters;
 import bigdata.common.StopWordHolder;
-import bigdata.techniques.ExecutorTFidF;
+import bigdata.techniques.SemaphoreTFidF;
 
-public class EReadDocumentsJMH {
+public class CSTermFrequencyJMH {
 
 	//@Benchmark
 	@BenchmarkMode(Mode.AverageTime)
@@ -27,8 +27,10 @@ public class EReadDocumentsJMH {
 		String filename = "archive/forRead.txt";
 		
 		StopWordHolder.getStopWord();
-		ExecutorTFidF tf = new ExecutorTFidF(filename);
+		SemaphoreTFidF tf = new SemaphoreTFidF(filename);
 		tf.readDocuments();
+		tf.constructTerms();
+		tf.termFrequency();
 	}
 	
 }

@@ -1,4 +1,4 @@
-package bigdata.TFidF.jmh.reactivestream;
+package bigdata.TFidF.jmh.executor;
 
 import java.util.concurrent.TimeUnit;
 
@@ -12,11 +12,11 @@ import org.openjdk.jmh.annotations.Warmup;
 
 import bigdata.TFidF.jmh.Parameters;
 import bigdata.common.StopWordHolder;
-import bigdata.techniques.ReactiveStreamTFidF;
+import bigdata.techniques.ExecutorTFidF;
 
-public class RReadDocumentsJMH {
+public class AEReadDocumentsJMH {
 
-	@Benchmark
+//	@Benchmark
 	@BenchmarkMode(Mode.AverageTime)
 	@OutputTimeUnit(TimeUnit.MILLISECONDS)
 	@Fork(value = Parameters.FORK_VALUE, warmups = Parameters.FORK_WARMUPS)
@@ -27,7 +27,7 @@ public class RReadDocumentsJMH {
 		String filename = "archive/forRead.txt";
 		
 		StopWordHolder.getStopWord();
-		ReactiveStreamTFidF tf = new ReactiveStreamTFidF(filename);
+		ExecutorTFidF tf = new ExecutorTFidF(filename);
 		tf.readDocuments();
 	}
 	

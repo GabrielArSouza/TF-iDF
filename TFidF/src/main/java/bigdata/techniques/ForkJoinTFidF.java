@@ -1,7 +1,6 @@
 package bigdata.techniques;
 
 import java.util.ArrayList;
-import java.util.Set;
 import java.util.concurrent.ForkJoinPool;
 
 import bigdata.algorithms.Document;
@@ -11,11 +10,6 @@ import bigdata.techniques.tools.forkJoin.ForkJoinInverseDocument;
 import bigdata.techniques.tools.forkJoin.ForkJoinReader;
 import bigdata.techniques.tools.forkJoin.ForkJoinTFidFTable;
 import bigdata.techniques.tools.forkJoin.ForkJoinTermFrequency;
-import bigdata.techniques.tools.mutex.MutexCounter;
-import bigdata.techniques.tools.mutex.MutexThreadConstructTerms;
-import bigdata.techniques.tools.mutex.MutexThreadInverseDocument;
-import bigdata.techniques.tools.mutex.MutexThreadTFidF;
-import bigdata.techniques.tools.mutex.MutexThreadTermFrequency;
 
 public class ForkJoinTFidF extends TFidF{
 

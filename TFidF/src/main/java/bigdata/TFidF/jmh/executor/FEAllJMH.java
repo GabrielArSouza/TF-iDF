@@ -1,5 +1,6 @@
-package bigdata.TFidF.jmh.parallelStream;
+package bigdata.TFidF.jmh.executor;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import org.openjdk.jmh.annotations.Benchmark;
@@ -12,9 +13,9 @@ import org.openjdk.jmh.annotations.Warmup;
 
 import bigdata.TFidF.jmh.Parameters;
 import bigdata.common.StopWordHolder;
-import bigdata.techniques.ParallelStreamTFidF;
+import bigdata.techniques.ExecutorTFidF;
 
-public class PSConstructTermsJMH {
+public class FEAllJMH {
 
 //	@Benchmark
 	@BenchmarkMode(Mode.AverageTime)
@@ -27,9 +28,18 @@ public class PSConstructTermsJMH {
 		String filename = "archive/forRead.txt";
 		
 		StopWordHolder.getStopWord();
-		ParallelStreamTFidF tf = new ParallelStreamTFidF(filename);
+		ExecutorTFidF tf = new ExecutorTFidF(filename);
 		tf.readDocuments();
 		tf.constructTerms();
+		tf.termFrequency();
+		tf.inverseDistance();
+		tf.tfidfTable();
+		
+		try {
+			tf.printTables();
+		}catch(IOException e) {
+			System.err.println("Something went wrong " + e.getMessage());
+		}
 	}
 	
 }
